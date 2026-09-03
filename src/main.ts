@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import './styles.css';
 import { BootScene } from './game/scenes/BootScene';
 import { MatchScene } from './game/scenes/MatchScene';
+import { AssetReviewScene } from './game/scenes/AssetReviewScene';
 
 const game = new Phaser.Game({
   type: Phaser.AUTO,
@@ -22,7 +23,7 @@ const game = new Phaser.Game({
   input: {
     activePointers: 5,
   },
-  scene: [BootScene, MatchScene],
+  scene: [BootScene, MatchScene, AssetReviewScene],
 });
 
 window.addEventListener('pagehide', () => game.destroy(true));

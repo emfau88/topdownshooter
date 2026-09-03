@@ -9,7 +9,7 @@
 | Letzte Aktualisierung | 2026-09-03 |
 | Produktziel | Hochwertiger spielbarer Mobile-Web-Slice |
 | Aktuelle Produktionsstufe | P0 — Projektgrundlage, Abschlussarbeiten |
-| Aktueller Batch | P0/G1 — System-Schnitt und technische Validierung |
+| Aktueller Batch | B0 — Style-Anker: Kandidaten und Ingame-Review |
 | Nächstes Gate | G1 — Technisches Fundament freigegeben |
 | Primärplattform | Android, Chrome/Chromium, Landscape |
 | Mindestgröße | 720 × 360 CSS-Pixel |
@@ -216,7 +216,7 @@ Ziel: Eine reproduzierbare visuelle Sprache definieren, bevor Bulk-Produktion be
 - [x] Konturstärke und Detaildichte definieren
 - [x] Teamfarben und neutrale Materialpalette festlegen
 - [x] Pivot-, Padding- und Namenskonventionen festlegen
-- [ ] vier B0-Style-Anker erzeugen
+- [~] vier B0-Style-Anker erzeugen
 - [ ] Style-Anker einzeln und gemeinsam im Spiel testen
 - [ ] G2 abnehmen
 
@@ -279,10 +279,10 @@ Manifest → Kandidaten erzeugen → Review → gezielte Korrektur
 
 ### B0 — Style-Anker
 
-- [ ] blauer Rifle-Soldat
-- [ ] gerades Wandmodul
-- [ ] Standardkiste
-- [ ] Medkit
+- [~] blauer Rifle-Soldat
+- [~] gerades Wandmodul
+- [~] Standardkiste
+- [~] Medkit
 
 ### B1 — Character-Core
 
@@ -630,6 +630,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | Matchzeit als isoliertes, getestetes Modell | Pressure-/Sudden-Death-Grenzen bleiben unabhängig von der Szene überprüfbar |
 | 2026-09-03 | Seeded PRNG für Match-Entscheidungen | KI- und Streuungsabläufe können reproduziert und debuggt werden |
 | 2026-09-03 | F3-Debug-Overlay im Entwicklungsbuild | Navigation, Kollisionen, Sicht- und Actorzustände sind direkt sichtbar |
+| 2026-09-03 | B0 arbeitet nur mit einzeln generierten, transparenten Kandidaten | Top-down-Perspektive, Pivot und Runtime-Größe bleiben einzeln prüfbar |
 
 ---
 
@@ -644,6 +645,8 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | P0-Regel- und Modelltests | 13/13 bestanden: Ammo, Capture, Takeover, PRNG und Matchzeit |
 | 2026-09-03 | P0-Produktions-Build | erfolgreich; Phaser weist nur auf eine große, erwartete Vendor-Chunk-Größe hin |
 | 2026-09-03 | P0-Baseline-Snapshot | Commit `b134998` erstellt |
+| 2026-09-03 | B0-Quellkandidaten | vier PNGs mit transparenten Ecken abgelegt; Ingame-Review steht aus |
+| 2026-09-03 | B0-Review-Szene | Build erfolgreich; erreichbar über `?art-review`, visuelle Abnahme auf Zielgerät steht aus |
 
 ---
 

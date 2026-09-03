@@ -1,7 +1,7 @@
 {
   "$schema": "../asset-manifest.schema.json",
   "batch": "B0",
-  "status": "planned",
+  "status": "in-progress",
   "styleGuide": "../../ART_STYLEGUIDE.md",
   "assets": [
     {
@@ -11,7 +11,7 @@
       "canvas": [384, 384],
       "pivot": [0.5, 0.68],
       "collisionRadius": 17,
-      "approval": "planned"
+      "approval": "candidate"
     },
     {
       "id": "environment.wall.straight",
@@ -19,7 +19,7 @@
       "runtime": "public/assets/atlases/environment.png",
       "canvas": [512, 256],
       "pivot": [0.5, 0.5],
-      "approval": "planned"
+      "approval": "candidate"
     },
     {
       "id": "prop.crate.standard",
@@ -28,7 +28,7 @@
       "canvas": [256, 256],
       "pivot": [0.5, 0.5],
       "collisionFootprint": [0.7, 0.7],
-      "approval": "planned"
+      "approval": "candidate"
     },
     {
       "id": "pickup.medkit.idle",
@@ -36,7 +36,7 @@
       "runtime": "public/assets/atlases/gameplay.png",
       "canvas": [256, 256],
       "pivot": [0.5, 0.5],
-      "approval": "planned"
+      "approval": "candidate"
     }
   ]
 }

@@ -30,6 +30,7 @@ export class BootScene extends Phaser.Scene {
 
   create(): void {
     registerAtlasFrames(this.textures);
-    this.scene.start('match');
+    const reviewMode = new URLSearchParams(window.location.search).has('art-review');
+    this.scene.start(reviewMode ? 'art-review' : 'match');
   }
 }

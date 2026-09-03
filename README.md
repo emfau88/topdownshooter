@@ -14,6 +14,8 @@ npm run dev
 
 Open the shown URL in a landscape browser. Desktop controls are `WASD`, mouse aim, `Space` to fire, `R` to reload, and `G` to throw smoke. Mobile controls use two sticks plus dedicated Fire, Reload, and Smoke buttons.
 
+To review the current B0 art candidates without entering a match, add `?art-review` to the local URL (for example `http://localhost:5188/?art-review`). This is a development-only review surface; candidates are not yet final runtime assets.
+
 ## Match rules
 
 - Pick Rifle, SMG, or Shotgun before every round. The primary is locked until the next round.
@@ -27,6 +29,7 @@ Open the shown URL in a landscape browser. Desktop controls are `WASD`, mouse ai
 ## Architecture
 
 - `src/game/model`: deterministic rules that can be unit tested without Phaser.
+- `src/game/entities`: actor state and reusable entity construction.
 - `src/game/scenes`: loading, rendering, input, AI, and match orchestration.
 - `src/game/map.ts`: arena layout, collision, and line-of-sight geometry.
 - `src/game/navigation.ts`: grid-based A* pathfinding for bots.

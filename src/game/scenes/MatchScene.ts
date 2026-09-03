@@ -17,6 +17,7 @@ import {
 } from '../config';
 import { DebugOverlay } from '../rendering/DebugOverlay';
 import { MatchEvents } from '../systems/MatchEvents';
+import { createActor } from '../entities/createActor';
 import type {
   ActorState,
   Announcement,
@@ -28,7 +29,7 @@ import type {
   TracerState,
 } from '../entities/types';
 import { COLLIDERS, PICKUP_POSITIONS, PROPS, STATIC_WALLS, isBlocked, segmentIntersectsCircle, segmentIntersectsRectangle } from '../map';
-import { grantAmmoMagazine, createAmmoState, reloadAmmo } from '../model/ammo';
+import { grantAmmoMagazine, reloadAmmo } from '../model/ammo';
 import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
 import { createRoundClock, tickRoundClock } from '../model/round';
@@ -272,13 +273,16 @@ export class MatchScene extends Phaser.Scene {
     const redNames = ['RUNE', 'SABLE', 'VEX'];
     BLUE_SPAWNS.forEach((spawn, index) => {
       const weapon = blueWeapons[index] ?? 'rifle';
-      const actor = this.createActor('blue', spawn, blueNames[index] ?? `BLUE ${index + 1}`, weapon, index !== 0, index);
+      const actor = createActor(this, { team: 'blue', spawn, name: blueNames[index] ?? `BLUE ${index + 1}`, weapon, ai: index !== 0, tacticalIndex: index });
       this.actors.push(actor);
+      this.dynamicObjects.push(actor.sprite);
       if (index === 0) this.takeControl(actor, false);
     });
     RED_SPAWNS.forEach((spawn, index) => {
       const weapon = redWeapons[index] ?? 'rifle';
-      this.actors.push(this.createActor('red', spawn, redNames[index] ?? `RED ${index + 1}`, weapon, true, index));
+      const actor = createActor(this, { team: 'red', spawn, name: redNames[index] ?? `RED ${index + 1}`, weapon, ai: true, tacticalIndex: index });
+      this.actors.push(actor);
+      this.dynamicObjects.push(actor.sprite);
     });
 
     for (const definition of PICKUP_POSITIONS) {
@@ -295,52 +299,6 @@ export class MatchScene extends Phaser.Scene {
 
     const openingSpawn = BLUE_SPAWNS[0];
     if (openingSpawn) this.cameras.main.centerOn(openingSpawn.x, openingSpawn.y);
-  }
-
-  private createActor(
-    team: Team,
-    spawn: Point,
-    name: string,
-    weapon: WeaponKey,
-    ai: boolean,
-    tacticalIndex: number,
-  ): ActorState {
-    const angle = team === 'blue' ? -Math.PI / 2 : Math.PI / 2;
-    const sprite = this.add.image(spawn.x, spawn.y, ASSET_KEYS.soldiers, `${team}-${weapon}`)
-      .setDisplaySize(70, 70)
-      .setRotation(angle + 0.06)
-      .setDepth(spawn.y);
-    this.dynamicObjects.push(sprite);
-    return {
-      id: `${team}-${tacticalIndex}`,
-      name,
-      team,
-      weapon,
-      ammo: createAmmoState(weapon),
-      sprite,
-      x: spawn.x,
-      y: spawn.y,
-      alive: true,
-      ai,
-      hp: 100,
-      armor: 35,
-      angle,
-      speed: 175,
-      velocity: { x: 0, y: 0 },
-      cooldownMs: 0,
-      reloadMs: 0,
-      grenades: 1,
-      hitFlashMs: 0,
-      reactionMs: 0,
-      trackedEnemyId: null,
-      lastSeen: null,
-      path: [],
-      pathIndex: 0,
-      repathMs: 0,
-      burstShots: 0,
-      burstPauseMs: 0,
-      tacticalIndex,
-    };
   }
 
   private enterLoadout(): void {
