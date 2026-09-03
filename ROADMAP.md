@@ -647,6 +647,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | P0-Baseline-Snapshot | Commit `b134998` erstellt |
 | 2026-09-03 | B0-Quellkandidaten | vier PNGs mit transparenten Ecken abgelegt; Ingame-Review steht aus |
 | 2026-09-03 | B0-Review-Szene | Build erfolgreich; erreichbar über `?art-review`, visuelle Abnahme auf Zielgerät steht aus |
+| 2026-09-03 | B0-Kandidaten-Snapshot | Commit `2bdccb5` erstellt |
 
 ---
 
