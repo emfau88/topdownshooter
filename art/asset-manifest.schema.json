@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Breachline asset batch manifest",
+  "type": "object",
+  "required": ["batch", "status", "styleGuide", "assets"],
+  "properties": {
+    "batch": { "type": "string" },
+    "status": { "enum": ["planned", "in-progress", "approved"] },
+    "styleGuide": { "type": "string" },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "source", "runtime", "canvas", "pivot", "approval"],
+        "properties": {
+          "id": { "type": "string" },
+          "source": { "type": "string" },
+          "runtime": { "type": "string" },
+          "canvas": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "integer", "minimum": 1 } },
+          "pivot": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number", "minimum": 0, "maximum": 1 } },
+          "collisionRadius": { "type": "number", "minimum": 0 },
+          "collisionFootprint": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "number", "minimum": 0, "maximum": 1 } },
+          "approval": { "enum": ["planned", "candidate", "approved", "rejected"] }
+        }
+      }
+    }
+  }
+}
