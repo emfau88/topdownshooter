@@ -9,7 +9,7 @@
 | Letzte Aktualisierung | 2026-09-03 |
 | Produktziel | Hochwertiger spielbarer Mobile-Web-Slice |
 | Aktuelle Produktionsstufe | P0 — Projektgrundlage, Abschlussarbeiten |
-| Aktueller Batch | P0/G1 — technische Validierung und Baseline-Snapshot |
+| Aktueller Batch | P0/G1 — System-Schnitt und technische Validierung |
 | Nächstes Gate | G1 — Technisches Fundament freigegeben |
 | Primärplattform | Android, Chrome/Chromium, Landscape |
 | Mindestgröße | 720 × 360 CSS-Pixel |
@@ -145,7 +145,7 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 
 ## G1 — Technisches Fundament
 
-- [~] Git-Repository und reproduzierbarer Ausgangsstand vorhanden
+- [x] Git-Repository und reproduzierbarer Ausgangsstand vorhanden
 - [x] TypeScript, Phaser 3 und Vite eingerichtet
 - [x] Produktions-Build erfolgreich
 - [x] Kernregeln für Ammo, Capture und Takeover getestet
@@ -194,7 +194,7 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 
 Ziel: Aus dem funktionalen Mechanics-Spike eine belastbare Produktionsbasis machen.
 
-- [~] Git initialisieren und Ausgangsstand committen
+- [x] Git initialisieren und Ausgangsstand committen
 - [x] Projektkonventionen und Formatierung festlegen
 - [~] `MatchScene` in kleinere Systeme zerlegen
 - [~] `Actor`, `Weapon`, `Pickup`, `Smoke` und `Round` als klare Zustandsmodelle definieren
@@ -643,6 +643,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | automatisierte visuelle Browserprüfung | Browser-Steuerungsverbindung nicht verfügbar; erneut durchführen |
 | 2026-09-03 | P0-Regel- und Modelltests | 13/13 bestanden: Ammo, Capture, Takeover, PRNG und Matchzeit |
 | 2026-09-03 | P0-Produktions-Build | erfolgreich; Phaser weist nur auf eine große, erwartete Vendor-Chunk-Größe hin |
+| 2026-09-03 | P0-Baseline-Snapshot | Commit `b134998` erstellt |
 
 ---
 
