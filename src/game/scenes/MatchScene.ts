@@ -125,6 +125,7 @@ export class MatchScene extends Phaser.Scene {
 
   create(): void {
     this.cameras.main.setBounds(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+    this.configureCameraZoom();
     this.cameras.main.setBackgroundColor('#171a14');
     this.createMap();
     this.zoneGraphics = this.add.graphics().setDepth(4);
@@ -273,7 +274,14 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private handleResize(): void {
+    this.configureCameraZoom();
     if (this.phase === 'loadout') this.buildLoadoutUi();
+  }
+
+  /** Keep roughly 1,320 world pixels visible on mobile without over-zooming desktop. */
+  private configureCameraZoom(): void {
+    const zoom = Phaser.Math.Clamp(this.scale.width / 1320, 0.54, 1);
+    this.cameras.main.setZoom(zoom);
   }
 
   private prepareRound(): void {

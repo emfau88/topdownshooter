@@ -651,6 +651,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Combat-feel first pass | Waffen erhalten getrennte Kick-, Muzzle-Flash-, Tracer- und Synth-Sound-Profile; Takeover wird als 620-ms-Übergabe mit Input-Reset und Depenetration inszeniert |
 | 2026-09-04 | Visibility and map readability pass | Team-Fog visualisiert den 720-px-Sichtbereich; ruhiger Depotboden ersetzt die Asset-Kachel-Collage; B0-Soldat erhält den Quellbild-Aim-Offset für korrektes Maus-Aiming |
 | 2026-09-04 | Depot art-layer correction | Die detaillierte Fliesenoptik bleibt erhalten, nutzt aber beschnittene und leicht überlappte Frames gegen das schwarze Schachbrett; Fog wird subtil statt dominant; nicht solide Konsolen, Lüftung und Supplies geben der Arena Kontext ohne neue Kollisionsmaze |
+| 2026-09-04 | Mobile tactical camera | Kamera zoomt responsiv auf rund 1.320 sichtbare Weltpixel Breite; 720×360 erhält so rechtzeitige Gegner- und Routeninformation |
 | 2026-09-04 | Waffenrollen als Graybox-Grenzen | Rifle, SMG und Shotgun sind durch Reichweite, Preferred Range und Feuermodus datenbasiert getrennt |
 | 2026-09-04 | Rundenende als einmalige Zustandsübergabe | Nur die aktive Combat-Phase darf Score und Folgephase verändern |
 
