@@ -165,9 +165,9 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 
 ## G3 — Graybox und Core Combat
 
-- [ ] neue Map ohne finale Grafik spielbar
-- [ ] drei Lanes und mindestens zwei Querverbindungen vorhanden
-- [ ] alle drei Waffen besitzen sinnvolle Einsatzbereiche
+- [x] neue Map ohne finale Grafik spielbar
+- [x] drei Lanes und mindestens zwei Querverbindungen vorhanden
+- [x] alle drei Waffen besitzen sinnvolle Einsatzbereiche
 - [ ] Sichtlinien, Smoke, Pickups und Takeover funktionieren
 - [ ] Bots erreichen alle spielrelevanten Bereiche
 
@@ -646,6 +646,8 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | G2-Style-Lock | vier B0-Master, Runtime-Atlanten und Manifestfreigaben geprüft; mobile Geräte-QA bleibt Bestandteil von P9 |
 | 2026-09-04 | Prompt-Vorlagen und Kontaktbogen werden versioniert erzeugt | Character-, Environment- und Pickup-Vorlagen sichern die B0-Invarianten für die nächsten Batches |
 | 2026-09-04 | Crossline Yard Graybox | Originale 3-Lane-/Loop-Map mit central Objective und zwei Querverbindungen, unabhängig von V7 |
+| 2026-09-04 | Crossline Depot replaces Crossline Yard | Symmetrische Spawnformationen, drei klare Routen, zwei Crossover-Baffles, offene Pressure Zone und risikobasierte Pickups ersetzen die diagonale, zufällige Anordnung |
+| 2026-09-04 | B0 character display compensation | Der großzügig gepaddete Top-down-Atlas wird doppelt so groß gerendert, damit seine sichtbare Figur den älteren, enger beschnittenen Sprites entspricht |
 | 2026-09-04 | Waffenrollen als Graybox-Grenzen | Rifle, SMG und Shotgun sind durch Reichweite, Preferred Range und Feuermodus datenbasiert getrennt |
 | 2026-09-04 | Rundenende als einmalige Zustandsübergabe | Nur die aktive Combat-Phase darf Score und Folgephase verändern |
 
@@ -683,6 +685,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | B0-Kontaktbogen | automatisiert erzeugt und nach einer ASCII-Kodierungskorrektur ohne Textartefakte visuell geprüft |
 | 2026-09-04 | Graybox-Navigation | 6 Spawnpunkte erreichen obere, mittlere und untere Lane; zentrale Passage auf 96 px korrigiert; 34/34 Tests bestanden |
 | 2026-09-04 | Core-Outcome-Modell | Rundensieg wird nur während Combat akzeptiert; 38/38 Tests und Produktions-Build bestanden |
+| 2026-09-04 | Crossline Depot Graybox | 6 Spawnpunkte erreichen alle drei Lane-Ziele; 38/38 Tests und Produktions-Build nach Map-Neubau bestanden |
 
 ---
 

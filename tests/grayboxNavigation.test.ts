@@ -4,12 +4,12 @@ import { isBlocked } from '../src/game/map';
 import { findPath } from '../src/game/navigation';
 
 const lanes = [
-  { name: 'upper', point: { x: 800, y: 180 } },
+  { name: 'upper', point: { x: 800, y: 115 } },
   { name: 'middle', point: { x: 800, y: 480 } },
-  { name: 'lower', point: { x: 800, y: 870 } },
+  { name: 'lower', point: { x: 800, y: 845 } },
 ] as const;
 
-describe('Crossline Yard graybox navigation', () => {
+describe('Crossline Depot graybox navigation', () => {
   it('keeps every named lane target walkable', () => {
     for (const lane of lanes) expect(isBlocked(lane.point.x, lane.point.y, 18), lane.name).toBe(false);
   });

@@ -22,7 +22,10 @@ export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorSta
     usesB0Character ? ASSET_KEYS.b0Character : ASSET_KEYS.soldiers,
     usesB0Character ? undefined : `${spec.team}-${spec.weapon}`,
   )
-    .setDisplaySize(70, 70)
+    // B0 has a deliberately generous transparent safety margin in its atlas.
+    // Give it a larger canvas footprint so its visible body matches the tightly
+    // cropped legacy sprites instead of making the controlled soldier tiny.
+    .setDisplaySize(usesB0Character ? 140 : 70, usesB0Character ? 140 : 70)
     .setRotation(angle + 0.06)
     .setDepth(spec.spawn.y);
 

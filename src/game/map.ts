@@ -15,48 +15,47 @@ export interface PropDefinition extends MapRectangle {
 }
 
 export const STATIC_WALLS: readonly MapRectangle[] = [
+  // Perimeter: the playable arena is an explicit, readable rectangle.
   { x: 0, y: 0, width: 1600, height: 42 },
   { x: 0, y: 918, width: 1600, height: 42 },
   { x: 0, y: 0, width: 42, height: 960 },
   { x: 1558, y: 0, width: 42, height: 960 },
-  { x: 540, y: 245, width: 175, height: 38 },
-  { x: 850, y: 245, width: 210, height: 38 },
-  { x: 540, y: 677, width: 175, height: 38 },
-  { x: 850, y: 677, width: 210, height: 38 },
-  { x: 540, y: 245, width: 38, height: 165 },
-  { x: 540, y: 525, width: 38, height: 190 },
-  { x: 1022, y: 245, width: 38, height: 165 },
-  { x: 1022, y: 525, width: 38, height: 190 },
-  { x: 210, y: 210, width: 280, height: 38 },
-  { x: 210, y: 210, width: 38, height: 180 },
-  { x: 1110, y: 210, width: 280, height: 38 },
-  { x: 1352, y: 210, width: 38, height: 180 },
-  { x: 210, y: 710, width: 280, height: 38 },
-  { x: 210, y: 570, width: 38, height: 178 },
-  { x: 1110, y: 710, width: 280, height: 38 },
-  { x: 1352, y: 570, width: 38, height: 178 },
-  { x: 710, y: 395, width: 180, height: 54 },
-  // A 96 px central passage keeps the objective accessible from every lane.
-  { x: 710, y: 545, width: 180, height: 54 },
-  { x: 355, y: 455, width: 150, height: 48 },
-  { x: 1095, y: 455, width: 150, height: 48 },
+
+  // Upper and lower lanes: mirrored long cover turns each into a deliberate
+  // medium-range duel instead of a single uninterrupted firing line.
+  { x: 420, y: 170, width: 235, height: 36 },
+  { x: 945, y: 170, width: 235, height: 36 },
+  { x: 420, y: 754, width: 235, height: 36 },
+  { x: 945, y: 754, width: 235, height: 36 },
+
+  // Mid-lane baffles block spawn-to-spawn sightlines, but leave a choice of
+  // north or south crossover before a team commits to the Pressure Zone.
+  { x: 455, y: 374, width: 36, height: 212 },
+  { x: 1109, y: 374, width: 36, height: 212 },
+
+  // Objective shell: deliberately open at both sides and protected only on its
+  // north/south edges. Players can contest from cover, but no wall sits inside
+  // the capture circle or seals it off from the middle lane.
+  { x: 660, y: 322, width: 280, height: 36 },
+  { x: 660, y: 602, width: 280, height: 36 },
 ];
 
 export const PROPS: readonly PropDefinition[] = [
-  { kind: 'crate', x: 292, y: 285, width: 82, height: 82, solid: true },
-  { kind: 'crate', x: 410, y: 315, width: 82, height: 82, solid: true },
-  { kind: 'barrel', x: 1265, y: 302, width: 64, height: 84, solid: true },
-  { kind: 'sandbags', x: 265, y: 610, width: 190, height: 72, solid: true },
-  { kind: 'sandbags', x: 1148, y: 610, width: 190, height: 72, solid: true },
-  { kind: 'console', x: 655, y: 300, width: 285, height: 115, solid: false },
-  { kind: 'desk', x: 620, y: 605, width: 210, height: 105, solid: false },
-  { kind: 'server', x: 1180, y: 270, width: 74, height: 112, solid: true },
-  { kind: 'plant', x: 487, y: 208, width: 72, height: 92, solid: false },
-  { kind: 'plant', x: 1045, y: 676, width: 72, height: 92, solid: false },
-  // Leaves a 55 px southern crossover between the central frame and this low cover.
-  { kind: 'long-crate', x: 722, y: 770, width: 184, height: 76, solid: true },
-  { kind: 'vent', x: 1265, y: 760, width: 104, height: 92, solid: true },
-  { kind: 'supply', x: 90, y: 410, width: 105, height: 105, solid: true },
+  // Spawn-side cover gives every lane an understandable first safe position.
+  { kind: 'sandbags', x: 245, y: 175, width: 150, height: 64, solid: true },
+  { kind: 'sandbags', x: 1205, y: 175, width: 150, height: 64, solid: true },
+  { kind: 'sandbags', x: 245, y: 721, width: 150, height: 64, solid: true },
+  { kind: 'sandbags', x: 1205, y: 721, width: 150, height: 64, solid: true },
+
+  // Lane anchors: each pair breaks a long angle and makes the flank useful for
+  // SMG/shotgun play without turning the route into a maze.
+  { kind: 'long-crate', x: 525, y: 245, width: 180, height: 72, solid: true },
+  { kind: 'long-crate', x: 895, y: 245, width: 180, height: 72, solid: true },
+  { kind: 'long-crate', x: 525, y: 643, width: 180, height: 72, solid: true },
+  { kind: 'long-crate', x: 895, y: 643, width: 180, height: 72, solid: true },
+
+  // The objective itself stays intentionally clear. The shell and the nearby
+  // lane anchors provide contest cover, but a team cannot capture from a bunker.
 ];
 
 export const COLLIDERS: readonly MapRectangle[] = [
@@ -71,10 +70,12 @@ export const COLLIDERS: readonly MapRectangle[] = [
 ];
 
 export const PICKUP_POSITIONS = [
-  { x: 470, y: 480, kind: 'med' as const },
-  { x: 1130, y: 480, kind: 'med' as const },
-  { x: 800, y: 205, kind: 'ammo' as const },
-  { x: 800, y: 825, kind: 'ammo' as const },
+  // Pickups are rewards for owning a lane or rotating near the centre, never
+  // free resources in either spawn pocket.
+  { x: 800, y: 255, kind: 'ammo' as const },
+  { x: 800, y: 705, kind: 'ammo' as const },
+  { x: 555, y: 480, kind: 'med' as const },
+  { x: 1045, y: 480, kind: 'med' as const },
 ];
 
 export function circleIntersectsRectangle(

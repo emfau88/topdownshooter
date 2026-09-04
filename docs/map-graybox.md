@@ -1,28 +1,28 @@
-# BREACHLINE — Graybox: Crossline Yard
+# BREACHLINE — Graybox: Crossline Depot
 
-`Crossline Yard` is an original compact three-lane/loop Graybox. It does not reproduce the V7 layout.
+`Crossline Depot` is an original compact three-lane/loop Graybox. It does not reproduce the V7 layout.
 
 ## Combat layout
 
 ```text
-RED SPAWN ── upper lane ──┐
-                           ├── PRESSURE ZONE ──┐
-BLUE SPAWN ─ middle lane ──┤                    ├── RED SPAWN
-                           └── lower lane ─────┘
+BLUE SPAWN ─┬─ upper lane ─┐     ┌─ upper lane ─┬─ RED SPAWN
+            ├─ middle lane ├─ Z ─┤ middle lane ┤
+            └─ lower lane ─┘     └─ lower lane ─┘
 ```
 
-- **Upper lane:** longer rifle sightline broken by the north cover frame.
-- **Middle lane:** direct but hazardous route through the objective pair of blockers.
-- **Lower lane:** closer flank with sandbags and supply cover.
-- **Crossovers:** two protected north/south connections join the lanes around the pressure zone. The south connection retains a 55 px navigable gap beside the long crate.
-- **Spawns:** each team has a pocket, an immediate exit and a safe rally path before entering a lane.
-- **Objective:** `ZONE_CENTER` is centrally placed, with cover close enough for contesting but not inside the circle.
+- **Upper/lower lanes:** mirrored, medium-range routes. Each has two long cover anchors, so a rifle can hold an angle but never the full lane.
+- **Middle lane:** the fastest route, with two baffles blocking a direct spawn-to-spawn firing line.
+- **Crossovers:** players swap lanes before the centre at both baffles, then choose the north or south side of the objective shell.
+- **Spawns:** teams start in matching vertical three-person formations; each spawn has nearby cover and three clear exits.
+- **Objective:** `ZONE_CENTER` stays open. Its shell and nearby lane anchors create contest angles, but never a capture bunker.
+- **Pickups:** ammunition rewards upper/lower lane ownership, health rewards a central rotation; neither team receives free spawn resources.
 
 ## Validation targets
 
-1. Every spawn reaches the Pressure Zone.
-2. Both teams can move between all three lanes through at least two crossover routes.
+1. Every spawn reaches the Pressure Zone and all three lanes.
+2. Both teams can move between all three lanes through multiple crossover routes.
 3. Rifle, SMG and Shotgun each have a distinct usable distance band.
-4. Navigation never needs to cross a solid wall or decorative-only prop.
+4. No spawn has a direct full-map firing line.
+5. Navigation never needs to cross a solid wall or decorative-only prop.
 
 The geometry is defined in `src/game/map.ts`; art remains intentionally provisional until B2/B3.

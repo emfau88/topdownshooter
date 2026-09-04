@@ -75,25 +75,25 @@ export const WEAPONS: Record<WeaponKey, WeaponDefinition> = {
 };
 
 export const BLUE_SPAWNS: readonly Point[] = [
-  { x: 210, y: 805 },
-  { x: 315, y: 824 },
-  { x: 405, y: 790 },
+  { x: 165, y: 250 },
+  { x: 165, y: 480 },
+  { x: 165, y: 710 },
 ];
 
 export const RED_SPAWNS: readonly Point[] = [
-  { x: 1200, y: 165 },
-  { x: 1310, y: 190 },
-  { x: 1400, y: 145 },
+  { x: 1435, y: 250 },
+  { x: 1435, y: 480 },
+  { x: 1435, y: 710 },
 ];
 
 export const BLUE_RALLY: readonly Point[] = [
-  { x: 630, y: 560 },
-  { x: 690, y: 735 },
-  { x: 455, y: 555 },
+  { x: 520, y: 250 },
+  { x: 525, y: 480 },
+  { x: 520, y: 710 },
 ];
 
 export const RED_RALLY: readonly Point[] = [
-  { x: 970, y: 400 },
-  { x: 915, y: 205 },
-  { x: 1140, y: 555 },
+  { x: 1080, y: 250 },
+  { x: 1075, y: 480 },
+  { x: 1080, y: 710 },
 ];
