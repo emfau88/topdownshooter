@@ -6,6 +6,7 @@ export interface ActorState extends Point {
   name: string;
   team: Team;
   weapon: WeaponKey;
+  usesB0Character: boolean;
   ammo: AmmoState;
   sprite: Phaser.GameObjects.Image;
   alive: boolean;

@@ -210,10 +210,23 @@ export class MatchScene extends Phaser.Scene {
       if (wall.width >= wall.height) boundaryGraphics.fillRect(wall.x + 3, wall.y + 3, Math.max(0, wall.width - 6), 4);
       else boundaryGraphics.fillRect(wall.x + 3, wall.y + 3, 4, Math.max(0, wall.height - 6));
       boundaryGraphics.fillStyle(0x252820, 1);
+      const cover = this.add.image(
+        wall.x + wall.width / 2,
+        wall.y + wall.height / 2,
+        ASSET_KEYS.b0Environment,
+        'wall-straight',
+      ).setDisplaySize(wall.width, wall.height).setDepth(9).setAlpha(0.92);
+      if (wall.height > wall.width) cover.setRotation(Math.PI / 2);
     }
 
     for (const prop of PROPS) {
-      this.add.image(prop.x + prop.width / 2, prop.y + prop.height / 2, ASSET_KEYS.environment, prop.kind)
+      const isB0Crate = prop.kind === 'crate';
+      this.add.image(
+        prop.x + prop.width / 2,
+        prop.y + prop.height / 2,
+        isB0Crate ? ASSET_KEYS.b0Environment : ASSET_KEYS.environment,
+        isB0Crate ? 'crate-standard' : prop.kind,
+      )
         .setDisplaySize(prop.width, prop.height)
         .setDepth(prop.y + prop.height / 2 + (prop.solid ? 40 : -5));
     }
@@ -291,8 +304,8 @@ export class MatchScene extends Phaser.Scene {
       const sprite = this.add.image(
         definition.x,
         definition.y,
-        ASSET_KEYS.soldiers,
-        definition.kind === 'med' ? 'pickup-med' : 'pickup-ammo',
+        definition.kind === 'med' ? ASSET_KEYS.b0Gameplay : ASSET_KEYS.soldiers,
+        definition.kind === 'med' ? undefined : 'pickup-ammo',
       ).setDisplaySize(58, 58).setDepth(definition.y + 5);
       const pickup: PickupState = { ...definition, active: true, sprite };
       this.pickups.push(pickup);
@@ -726,7 +739,9 @@ export class MatchScene extends Phaser.Scene {
     target.alive = false;
     this.matchEvents.emit('actor:killed', { targetId: target.id, sourceId: source.id });
     target.velocity = { x: 0, y: 0 };
-    target.sprite.setFrame(`${target.team}-dead`).setDisplaySize(80, 80).setRotation(0).setAlpha(0.94);
+    if (target.usesB0Character) target.sprite.setTexture(ASSET_KEYS.soldiers, `${target.team}-dead`);
+    else target.sprite.setFrame(`${target.team}-dead`);
+    target.sprite.setDisplaySize(80, 80).setRotation(0).setAlpha(0.94);
     const stain = this.add.image(target.x, target.y, ASSET_KEYS.environment, 'floor-stain')
       .setDisplaySize(105, 105)
       .setAlpha(0.62)

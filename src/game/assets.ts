@@ -3,6 +3,9 @@ import Phaser from 'phaser';
 export const ASSET_KEYS = {
   soldiers: 'soldiers-sheet',
   environment: 'environment-sheet',
+  b0Character: 'b0-character',
+  b0Environment: 'b0-environment',
+  b0Gameplay: 'b0-gameplay',
 } as const;
 
 type FrameDefinition = readonly [name: string, x: number, y: number, width: number, height: number];
@@ -58,4 +61,8 @@ function addFrames(texture: Phaser.Textures.Texture, definitions: readonly Frame
 export function registerAtlasFrames(textures: Phaser.Textures.TextureManager): void {
   addFrames(textures.get(ASSET_KEYS.soldiers), SOLDIER_FRAMES);
   addFrames(textures.get(ASSET_KEYS.environment), ENVIRONMENT_FRAMES);
+  addFrames(textures.get(ASSET_KEYS.b0Environment), [
+    ['wall-straight', 0, 0, 512, 256],
+    ['crate-standard', 512, 0, 256, 256],
+  ]);
 }

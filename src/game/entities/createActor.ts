@@ -15,7 +15,13 @@ export interface ActorSpawnSpec {
 
 export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorState {
   const angle = spec.team === 'blue' ? -Math.PI / 2 : Math.PI / 2;
-  const sprite = scene.add.image(spec.spawn.x, spec.spawn.y, ASSET_KEYS.soldiers, `${spec.team}-${spec.weapon}`)
+  const usesB0Character = spec.team === 'blue' && spec.weapon === 'rifle' && spec.tacticalIndex === 0;
+  const sprite = scene.add.image(
+    spec.spawn.x,
+    spec.spawn.y,
+    usesB0Character ? ASSET_KEYS.b0Character : ASSET_KEYS.soldiers,
+    usesB0Character ? undefined : `${spec.team}-${spec.weapon}`,
+  )
     .setDisplaySize(70, 70)
     .setRotation(angle + 0.06)
     .setDepth(spec.spawn.y);
@@ -25,6 +31,7 @@ export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorSta
     name: spec.name,
     team: spec.team,
     weapon: spec.weapon,
+    usesB0Character,
     ammo: createAmmoState(spec.weapon),
     sprite,
     x: spec.spawn.x,

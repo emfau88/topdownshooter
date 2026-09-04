@@ -160,8 +160,8 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 - [ ] Wandmodul als Environment-Anker freigegeben
 - [ ] Kiste als Prop-Anker freigegeben
 - [ ] Medkit als Pickup-/UI-Anker freigegeben
-- [ ] alle vier Anker funktionieren gemeinsam bei 720 × 360
-- [ ] echte 90°-Top-down-Perspektive visuell bestätigt
+- [~] alle vier Anker funktionieren gemeinsam bei 720 × 360
+- [~] echte 90°-Top-down-Perspektive visuell bestätigt
 
 ## G3 — Graybox und Core Combat
 
@@ -217,7 +217,7 @@ Ziel: Eine reproduzierbare visuelle Sprache definieren, bevor Bulk-Produktion be
 - [x] Teamfarben und neutrale Materialpalette festlegen
 - [x] Pivot-, Padding- und Namenskonventionen festlegen
 - [~] vier B0-Style-Anker erzeugen
-- [ ] Style-Anker einzeln und gemeinsam im Spiel testen
+- [~] Style-Anker einzeln und gemeinsam im Spiel testen
 - [ ] G2 abnehmen
 
 ## P2 — Asset-Pipeline automatisieren
@@ -482,7 +482,7 @@ Ziel: Referenzassets vollständig aus dem Runtime-Build entfernen.
 - [ ] Lizenz-/Quellenverzeichnis prüfen
 - [ ] reproduzierbare Build-Anleitung aktualisieren
 - [ ] optionales PWA-Manifest prüfen
-- [ ] Deployment-Ziel definieren
+- [x] Deployment-Ziel definieren
 - [ ] finalen Browser-Smoke-Test durchführen
 - [ ] G5 abnehmen
 - [ ] Release-Version markieren
@@ -640,6 +640,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Best-of-5-Score als reine Matchregel | Die UI reagiert nur noch auf das getestete Ergebnis eines Rundensieges |
 | 2026-09-04 | KI-Zielpriorisierung als eigene Policy | Sichtbare Gegner, letzte Sichtung, Pressure Zone und Rally-Punkte sind testbar getrennt |
 | 2026-09-04 | B0-Quellen werden erst in Master-Canvas und dann in Review-Atlanten überführt | Quelldateien bleiben unverändert; jede Runtime-Variante ist reproduzierbar ableitbar |
+| 2026-09-04 | GitHub Pages per GitHub Actions | Jeder Push auf `master` testet, baut und deployt den Vite-Build als Pages-Artefakt |
 
 ---
 
@@ -669,6 +670,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | P0 Match-Score-Modell | 30/30 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | G1-Technikabnahme | 32/32 automatisierte Tests, Asset-Manifest-Prüfung und Produktions-Build bestanden |
 | 2026-09-04 | B0-Normalisierung und Review-Atlas | vier Master-Canvas und drei abgeleitete Review-PNGs plus Frame-JSON erzeugt; Quellen mit Randkontakt werden gewarnt und erhalten Runtime-Padding |
+| 2026-09-04 | B0-Runtime-Integration | Character-Anker, Wand, Kiste und Medkit werden im Match geladen; automatisierte Browserprüfung lokal nicht verfügbar, deshalb visuelle Abnahme noch offen |
 
 ---
 

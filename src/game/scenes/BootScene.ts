@@ -26,6 +26,9 @@ export class BootScene extends Phaser.Scene {
 
     this.load.image(ASSET_KEYS.soldiers, 'assets/taktisches_soldaten_asset_sheet.png');
     this.load.image(ASSET_KEYS.environment, 'assets/top_down_spielasset_atlas.png');
+    this.load.image(ASSET_KEYS.b0Character, 'assets/atlases/characters-b0-review.png');
+    this.load.image(ASSET_KEYS.b0Environment, 'assets/atlases/environment-b0-review.png');
+    this.load.image(ASSET_KEYS.b0Gameplay, 'assets/atlases/gameplay-b0-review.png');
   }
 
   create(): void {
