@@ -653,6 +653,8 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Regressionscheck | 13/13 automatisierte Tests erneut bestanden |
 | 2026-09-04 | P0 Combat-Modelle | 17/17 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Sichtlinienmodell | 20/20 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | Asset-Manifest-Prüfung | eine Manifestdatei erfolgreich gegen Quellpfade, Canvas, Pivots und Freigabestatus validiert |
+| 2026-09-04 | P0 Combat-/Visibility-Snapshot | Commit `a4da894` erstellt |
 
 ---
 
