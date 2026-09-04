@@ -1,0 +1,17 @@
+﻿{
+    "atlas":  "environment-b0-review.png",
+    "frames":  {
+                   "prop.crate.standard":  {
+                                               "y":  0,
+                                               "width":  256,
+                                               "height":  256,
+                                               "x":  512
+                                           },
+                   "environment.wall.straight":  {
+                                                     "y":  0,
+                                                     "width":  512,
+                                                     "height":  256,
+                                                     "x":  0
+                                                 }
+               }
+}

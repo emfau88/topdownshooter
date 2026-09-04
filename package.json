@@ -7,6 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "npm run assets:check && tsc -b && vite build",
     "assets:check": "node scripts/validate-assets.mjs",
+    "assets:normalize-b0": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/normalize-b0-assets.ps1",
+    "assets:pack-b0-review": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pack-b0-review-atlases.ps1",
     "test": "vitest run",
     "test:watch": "vitest"
   },

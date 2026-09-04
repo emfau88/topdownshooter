@@ -228,9 +228,9 @@ Ziel: Einzelassets kontrolliert erzeugen, prüfen, normalisieren und reproduzier
 - [x] zentrales Asset-Manifest erstellen
 - [ ] Prompt-Vorlagen pro Assetklasse versionieren
 - [~] Transparenz- und Randprüfung automatisieren
-- [ ] Trimming, Padding und Größen-Normalisierung automatisieren
+- [x] Trimming, Padding und Größen-Normalisierung automatisieren
 - [ ] Pivotpunkte und Kollisions-Footprints als Metadaten speichern
-- [ ] Atlas-Packer mit JSON-Ausgabe erstellen
+- [~] Atlas-Packer mit JSON-Ausgabe erstellen
 - [ ] automatische Kontaktbögen für Review erzeugen
 - [ ] doppelte oder ungenutzte Runtime-Assets melden
 - [x] Build gegen fehlende Quelldateien absichern
@@ -639,6 +639,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Pickup-Effekte als reine Regel | Medkit und Ammo entscheiden deterministisch über Konsum und Zustandsänderung |
 | 2026-09-04 | Best-of-5-Score als reine Matchregel | Die UI reagiert nur noch auf das getestete Ergebnis eines Rundensieges |
 | 2026-09-04 | KI-Zielpriorisierung als eigene Policy | Sichtbare Gegner, letzte Sichtung, Pressure Zone und Rally-Punkte sind testbar getrennt |
+| 2026-09-04 | B0-Quellen werden erst in Master-Canvas und dann in Review-Atlanten überführt | Quelldateien bleiben unverändert; jede Runtime-Variante ist reproduzierbar ableitbar |
 
 ---
 
@@ -667,6 +668,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | P0 Pickup-Modell | 28/28 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Match-Score-Modell | 30/30 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | G1-Technikabnahme | 32/32 automatisierte Tests, Asset-Manifest-Prüfung und Produktions-Build bestanden |
+| 2026-09-04 | B0-Normalisierung und Review-Atlas | vier Master-Canvas und drei abgeleitete Review-PNGs plus Frame-JSON erzeugt; Quellen mit Randkontakt werden gewarnt und erhalten Runtime-Padding |
 
 ---
 

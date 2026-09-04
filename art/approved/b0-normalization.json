@@ -1,0 +1,66 @@
+﻿[
+    {
+        "id":  "character.blue.rifle.idle",
+        "source":  "art/source/character_blue_rifle_idle_v01.png",
+        "approved":  "art/approved/character_blue_rifle_idle_v01.png",
+        "canvas":  [
+                       384,
+                       384
+                   ],
+        "alphaBounds":  [
+                            97,
+                            52,
+                            1097,
+                            1146
+                        ],
+        "padding":  48
+    },
+    {
+        "id":  "environment.wall.straight",
+        "source":  "art/source/environment_wall_straight_v01.png",
+        "approved":  "art/approved/environment_wall_straight_v01.png",
+        "canvas":  [
+                       512,
+                       256
+                   ],
+        "alphaBounds":  [
+                            73,
+                            11,
+                            2063,
+                            651
+                        ],
+        "padding":  32
+    },
+    {
+        "id":  "prop.crate.standard",
+        "source":  "art/source/prop_crate_standard_v01.png",
+        "approved":  "art/approved/prop_crate_standard_v01.png",
+        "canvas":  [
+                       256,
+                       256
+                   ],
+        "alphaBounds":  [
+                            108,
+                            33,
+                            1122,
+                            1221
+                        ],
+        "padding":  24
+    },
+    {
+        "id":  "pickup.medkit.idle",
+        "source":  "art/source/pickup_medkit_idle_v01.png",
+        "approved":  "art/approved/pickup_medkit_idle_v01.png",
+        "canvas":  [
+                       256,
+                       256
+                   ],
+        "alphaBounds":  [
+                            0,
+                            37,
+                            1228,
+                            1217
+                        ],
+        "padding":  32
+    }
+]
