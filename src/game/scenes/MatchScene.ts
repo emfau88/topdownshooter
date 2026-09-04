@@ -28,13 +28,15 @@ import type {
   StickState,
   TracerState,
 } from '../entities/types';
-import { COLLIDERS, PICKUP_POSITIONS, PROPS, STATIC_WALLS, isBlocked, segmentIntersectsCircle, segmentIntersectsRectangle } from '../map';
+import { COLLIDERS, PICKUP_POSITIONS, PROPS, STATIC_WALLS, isBlocked } from '../map';
 import { grantAmmoMagazine, reloadAmmo } from '../model/ammo';
+import { applyDamage, spendShot } from '../model/combat';
 import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
 import { createRoundClock, tickRoundClock } from '../model/round';
 import type { RoundClockState } from '../model/round';
 import { chooseTakeoverCandidate } from '../model/takeover';
+import { hasLineOfSight } from '../model/visibility';
 import type { CaptureState, MatchPhase, Point, Team, WeaponKey } from '../model/types';
 import { findPath } from '../navigation';
 
@@ -677,7 +679,12 @@ export class MatchScene extends Phaser.Scene {
       return;
     }
     const weapon = WEAPONS[actor.weapon];
-    actor.ammo = { ...actor.ammo, magazine: actor.ammo.magazine - 1 };
+    const spentAmmo = spendShot(actor.ammo);
+    if (!spentAmmo) {
+      this.startReload(actor);
+      return;
+    }
+    actor.ammo = spentAmmo;
     actor.cooldownMs = weapon.fireIntervalMs;
     const moving = Math.hypot(actor.velocity.x, actor.velocity.y) > 55;
     const spread = weapon.spread * (moving ? weapon.movingSpreadMultiplier : 1);
@@ -755,9 +762,9 @@ export class MatchScene extends Phaser.Scene {
 
   private damageActor(target: ActorState, amount: number, source: ActorState): void {
     if (!target.alive) return;
-    const absorbed = Math.min(target.armor, amount * 0.35);
-    target.armor -= absorbed;
-    target.hp -= amount - absorbed;
+    const result = applyDamage(target, amount);
+    target.armor = result.armor;
+    target.hp = result.hp;
     target.hitFlashMs = 120;
     this.matchEvents.emit('actor:damaged', { targetId: target.id, sourceId: source.id, amount });
     this.spawnImpacts(target, 5);
@@ -915,11 +922,7 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private canSee(observer: ActorState, target: ActorState): boolean {
-    if (!observer.alive || !target.alive || distance(observer, target) > 720) return false;
-    const start = { x: observer.x, y: observer.y };
-    const end = { x: target.x, y: target.y };
-    if (COLLIDERS.some((rectangle) => segmentIntersectsRectangle(start, end, rectangle))) return false;
-    return !this.smokes.some((smoke) => smoke.remainingMs > 400 && segmentIntersectsCircle(start, end, smoke, smoke.radius * 0.72));
+    return observer.alive && target.alive && hasLineOfSight(observer, target, COLLIDERS, this.smokes);
   }
 
   private updateVisibility(): void {

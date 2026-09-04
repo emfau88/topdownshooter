@@ -6,7 +6,7 @@
 
 | Feld | Stand |
 |---|---|
-| Letzte Aktualisierung | 2026-09-03 |
+| Letzte Aktualisierung | 2026-09-04 |
 | Produktziel | Hochwertiger spielbarer Mobile-Web-Slice |
 | Aktuelle Produktionsstufe | P0 — Projektgrundlage, Abschlussarbeiten |
 | Aktueller Batch | B0 — Style-Anker: Kandidaten und Ingame-Review |
@@ -202,7 +202,7 @@ Ziel: Aus dem funktionalen Mechanics-Spike eine belastbare Produktionsbasis mach
 - [x] deterministischen Seed/PRNG einführen
 - [x] verbleibende Balancewerte aus Scene-Code entfernen
 - [x] Debug-Overlay für FPS, Actor-Positionen und Zustände ergänzen
-- [x] Tests für Reload, Reserve-Cap, Capture, Sudden Death und Takeover vervollständigen
+- [x] Tests für Reload, Reserve-Cap, Capture, Sudden Death, Takeover und Combat-Grundregeln vervollständigen
 - [ ] G1 abnehmen
 
 ## P1 — Art Direction und Asset-Vertrag
@@ -227,13 +227,13 @@ Ziel: Einzelassets kontrolliert erzeugen, prüfen, normalisieren und reproduzier
 - [x] Ordner `art/source`, `art/anchors`, `art/approved` und `public/assets/atlases` anlegen
 - [x] zentrales Asset-Manifest erstellen
 - [ ] Prompt-Vorlagen pro Assetklasse versionieren
-- [ ] Transparenz- und Randprüfung automatisieren
+- [~] Transparenz- und Randprüfung automatisieren
 - [ ] Trimming, Padding und Größen-Normalisierung automatisieren
 - [ ] Pivotpunkte und Kollisions-Footprints als Metadaten speichern
 - [ ] Atlas-Packer mit JSON-Ausgabe erstellen
 - [ ] automatische Kontaktbögen für Review erzeugen
 - [ ] doppelte oder ungenutzte Runtime-Assets melden
-- [ ] Build gegen fehlende Quelldateien absichern
+- [x] Build gegen fehlende Quelldateien absichern
 
 ## P3 — Neue Map als Graybox
 
@@ -551,8 +551,8 @@ ui_button_fire_default_v01.png
 - [x] deterministische Takeover-Auswahl
 - [x] Pressure-Aktivierung exakt bei 20 Sekunden
 - [x] Sudden Death exakt bei 0:00
-- [ ] Shotgun verbraucht eine Shell pro Schuss
-- [ ] Smoke blockiert Sicht, nicht Projektile
+- [x] Shotgun verbraucht eine Shell pro Schuss
+- [x] Smoke blockiert Sicht, nicht Projektile
 - [ ] Rundensieg nur einmal auslösbar
 - [ ] Touchzustände nach Takeover vollständig gelöscht
 - [ ] Match endet nach drei Rundensiegen
@@ -631,6 +631,8 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | Seeded PRNG für Match-Entscheidungen | KI- und Streuungsabläufe können reproduziert und debuggt werden |
 | 2026-09-03 | F3-Debug-Overlay im Entwicklungsbuild | Navigation, Kollisionen, Sicht- und Actorzustände sind direkt sichtbar |
 | 2026-09-03 | B0 arbeitet nur mit einzeln generierten, transparenten Kandidaten | Top-down-Perspektive, Pivot und Runtime-Größe bleiben einzeln prüfbar |
+| 2026-09-04 | Schussverbrauch und Rüstung als reine Combat-Regeln | Weapon- und Damage-Zustand bleiben ohne Phaser testbar |
+| 2026-09-04 | Sichtlinie und Smoke als reine Regel | Smoke wird nur vom Sichtsystem ausgewertet, nie vom Hitscan-System |
 
 ---
 
@@ -648,6 +650,9 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-03 | B0-Quellkandidaten | vier PNGs mit transparenten Ecken abgelegt; Ingame-Review steht aus |
 | 2026-09-03 | B0-Review-Szene | Build erfolgreich; erreichbar über `?art-review`, visuelle Abnahme auf Zielgerät steht aus |
 | 2026-09-03 | B0-Kandidaten-Snapshot | Commit `2bdccb5` erstellt |
+| 2026-09-04 | Regressionscheck | 13/13 automatisierte Tests erneut bestanden |
+| 2026-09-04 | P0 Combat-Modelle | 17/17 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | P0 Sichtlinienmodell | 20/20 automatisierte Tests und Produktions-Build bestanden |
 
 ---
 
