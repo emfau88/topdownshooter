@@ -635,6 +635,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Sichtlinie und Smoke als reine Regel | Smoke wird nur vom Sichtsystem ausgewertet, nie vom Hitscan-System |
 | 2026-09-04 | Bewegung und Depenetration als eigenes System | Kollisionstest wird injiziert; Bewegung bleibt ohne Phaser testbar |
 | 2026-09-04 | Touch-Steuerung als atomarer Zustand | Takeover und Rundenstart ersetzen alle aktiven Touch-Pointer gemeinsam |
+| 2026-09-04 | Smoke als Lifecycle-Modell | Smoke-Radius und -Dauer sind zentral definiert und unabhängig testbar |
 
 ---
 
@@ -659,6 +660,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | P0 Combat-/Visibility-Snapshot | Commit `a4da894` erstellt |
 | 2026-09-04 | P0 Movement-System | 23/23 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Touch-State-System | 24/24 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | P0 Smoke-Modell | 26/26 automatisierte Tests und Produktions-Build bestanden |
 
 ---
 

@@ -7,6 +7,8 @@ export const PRESSURE_ZONE_AT_SECONDS = 20;
 export const CAPTURE_SECONDS = 6;
 export const ROUND_WINS_TO_MATCH = 3;
 export const ACTOR_RADIUS = 17;
+export const SMOKE_RADIUS = 100;
+export const SMOKE_DURATION_MS = 7500;
 
 export const COLORS = {
   blue: 0x2697ff,

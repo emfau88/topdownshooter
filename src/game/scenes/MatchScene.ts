@@ -36,6 +36,7 @@ import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
 import { createRoundClock, tickRoundClock } from '../model/round';
 import type { RoundClockState } from '../model/round';
+import { createSmoke, tickSmokes } from '../model/smoke';
 import { chooseTakeoverCandidate } from '../model/takeover';
 import { hasLineOfSight } from '../model/visibility';
 import type { CaptureState, MatchPhase, Point, Team, WeaponKey } from '../model/types';
@@ -462,11 +463,7 @@ export class MatchScene extends Phaser.Scene {
       }
     }
 
-    for (const smoke of this.smokes) {
-      smoke.remainingMs -= deltaMs;
-      smoke.ageMs += deltaMs;
-    }
-    this.smokes = this.smokes.filter((smoke) => smoke.remainingMs > 0);
+    this.smokes = tickSmokes(this.smokes, deltaMs);
     for (const tracer of this.tracers) tracer.remainingMs -= deltaMs;
     this.tracers = this.tracers.filter((tracer) => tracer.remainingMs > 0);
     for (const impact of this.impacts) {
@@ -793,7 +790,7 @@ export class MatchScene extends Phaser.Scene {
       y = Phaser.Math.Linear(y, actor.y, 0.12);
     }
     actor.grenades -= 1;
-    this.smokes.push({ id: this.smokeSequence += 1, x, y, radius: 100, remainingMs: 7500, ageMs: 0 });
+    this.smokes.push(createSmoke(this.smokeSequence += 1, { x, y }));
     if (actor === this.controlled) this.announce('SMOKE OUT', 700);
   }
 
