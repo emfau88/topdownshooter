@@ -10,7 +10,6 @@ import {
   PRESSURE_ZONE_AT_SECONDS,
   RED_RALLY,
   RED_SPAWNS,
-  ROUND_WINS_TO_MATCH,
   WEAPONS,
   WORLD_HEIGHT,
   WORLD_WIDTH,
@@ -34,6 +33,7 @@ import { reloadAmmo } from '../model/ammo';
 import { applyDamage, spendShot } from '../model/combat';
 import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
+import { recordRoundWin } from '../model/match';
 import { createRoundClock, tickRoundClock } from '../model/round';
 import type { RoundClockState } from '../model/round';
 import { createSmoke, tickSmokes } from '../model/smoke';
@@ -839,9 +839,10 @@ export class MatchScene extends Phaser.Scene {
 
   private endRound(team: Team, reason: string): void {
     if (this.phase !== 'combat') return;
-    this.score[team] += 1;
+    const result = recordRoundWin(this.score, team);
+    this.score = result.score;
     this.clearInputState();
-    if (this.score[team] >= ROUND_WINS_TO_MATCH) {
+    if (result.matchWinner) {
       this.phase = 'match-over';
       this.bannerText.setText(`${team.toUpperCase()} TAKES THE MATCH\n${this.score.blue} — ${this.score.red}\n\nTAP TO RESTART`)
         .setColor(team === 'blue' ? '#42a7ff' : '#ef5448');

@@ -555,7 +555,7 @@ ui_button_fire_default_v01.png
 - [x] Smoke blockiert Sicht, nicht Projektile
 - [ ] Rundensieg nur einmal auslösbar
 - [x] Touchzustände nach Takeover vollständig gelöscht
-- [ ] Match endet nach drei Rundensiegen
+- [x] Match endet nach drei Rundensiegen
 
 ## 6.2 Manuelle Spieltests
 
@@ -637,6 +637,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Touch-Steuerung als atomarer Zustand | Takeover und Rundenstart ersetzen alle aktiven Touch-Pointer gemeinsam |
 | 2026-09-04 | Smoke als Lifecycle-Modell | Smoke-Radius und -Dauer sind zentral definiert und unabhängig testbar |
 | 2026-09-04 | Pickup-Effekte als reine Regel | Medkit und Ammo entscheiden deterministisch über Konsum und Zustandsänderung |
+| 2026-09-04 | Best-of-5-Score als reine Matchregel | Die UI reagiert nur noch auf das getestete Ergebnis eines Rundensieges |
 
 ---
 
@@ -663,6 +664,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | P0 Touch-State-System | 24/24 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Smoke-Modell | 26/26 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Pickup-Modell | 28/28 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | P0 Match-Score-Modell | 30/30 automatisierte Tests und Produktions-Build bestanden |
 
 ---
 
