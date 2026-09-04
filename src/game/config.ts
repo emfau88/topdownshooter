@@ -74,6 +74,18 @@ export const WEAPONS: Record<WeaponKey, WeaponDefinition> = {
   },
 };
 
+/** Presentation values stay separate from weapon damage and ammo rules. */
+export const WEAPON_FEEL: Record<WeaponKey, {
+  cameraKick: number;
+  muzzleSize: number;
+  tracerWidth: number;
+  tracerLifetimeMs: number;
+}> = {
+  rifle: { cameraKick: 1.8, muzzleSize: 15, tracerWidth: 2.4, tracerLifetimeMs: 88 },
+  smg: { cameraKick: 0.7, muzzleSize: 10, tracerWidth: 1.6, tracerLifetimeMs: 54 },
+  shotgun: { cameraKick: 4.2, muzzleSize: 24, tracerWidth: 2.1, tracerLifetimeMs: 72 },
+};
+
 export const BLUE_SPAWNS: readonly Point[] = [
   { x: 165, y: 250 },
   { x: 165, y: 480 },

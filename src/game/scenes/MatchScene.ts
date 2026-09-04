@@ -11,12 +11,13 @@ import {
   RED_RALLY,
   RED_SPAWNS,
   WEAPONS,
+  WEAPON_FEEL,
   WORLD_HEIGHT,
   WORLD_WIDTH,
 } from '../config';
 import { DebugOverlay } from '../rendering/DebugOverlay';
 import { MatchEvents } from '../systems/MatchEvents';
-import { moveActor, separateActors } from '../systems/movement';
+import { depenetrateActor, moveActor, separateActors } from '../systems/movement';
 import { createTouchState } from '../systems/touchState';
 import { chooseIdleGoal, nearestAiTarget } from '../systems/aiPolicy';
 import { createActor } from '../entities/createActor';
@@ -25,6 +26,7 @@ import type {
   Announcement,
   ControlLayout,
   ImpactState,
+  MuzzleFlashState,
   PickupState,
   SmokeState,
   TracerState,
@@ -69,6 +71,7 @@ export class MatchScene extends Phaser.Scene {
   private pickups: PickupState[] = [];
   private smokes: SmokeState[] = [];
   private tracers: TracerState[] = [];
+  private muzzleFlashes: MuzzleFlashState[] = [];
   private impacts: ImpactState[] = [];
   private dynamicObjects: Phaser.GameObjects.GameObject[] = [];
 
@@ -109,6 +112,7 @@ export class MatchScene extends Phaser.Scene {
   private hitMarkerMs = 0;
   private killMarkerMs = 0;
   private cameraShake = 0;
+  private pendingTakeover: { deadActor: ActorState; remainingMs: number } | null = null;
   private readonly showTouchUi = window.matchMedia?.('(pointer: coarse)').matches ?? false;
 
   constructor() {
@@ -272,8 +276,10 @@ export class MatchScene extends Phaser.Scene {
     this.pickups = [];
     this.smokes = [];
     this.tracers = [];
+    this.muzzleFlashes = [];
     this.impacts = [];
     this.controlled = null;
+    this.pendingTakeover = null;
     this.pressureZoneActive = false;
     this.suddenDeath = false;
     this.captureState = { activeTeam: null, progressSeconds: 0 };
@@ -482,6 +488,8 @@ export class MatchScene extends Phaser.Scene {
     this.smokes = tickSmokes(this.smokes, deltaMs);
     for (const tracer of this.tracers) tracer.remainingMs -= deltaMs;
     this.tracers = this.tracers.filter((tracer) => tracer.remainingMs > 0);
+    for (const flash of this.muzzleFlashes) flash.remainingMs -= deltaMs;
+    this.muzzleFlashes = this.muzzleFlashes.filter((flash) => flash.remainingMs > 0);
     for (const impact of this.impacts) {
       impact.remainingMs -= deltaMs;
       impact.x += impact.velocity.x * deltaMs / 1000;
@@ -494,6 +502,15 @@ export class MatchScene extends Phaser.Scene {
     if (this.announcement) {
       this.announcement.remainingMs -= deltaMs;
       if (this.announcement.remainingMs <= 0) this.announcement = null;
+    }
+
+    if (this.pendingTakeover) {
+      this.pendingTakeover.remainingMs -= deltaMs;
+      if (this.pendingTakeover.remainingMs <= 0) {
+        const { deadActor } = this.pendingTakeover;
+        this.pendingTakeover = null;
+        this.completeTakeover(deadActor);
+      }
     }
   }
 
@@ -641,6 +658,7 @@ export class MatchScene extends Phaser.Scene {
       return;
     }
     const weapon = WEAPONS[actor.weapon];
+    const feel = WEAPON_FEEL[actor.weapon];
     const spentAmmo = spendShot(actor.ammo);
     if (!spentAmmo) {
       this.startReload(actor);
@@ -648,18 +666,27 @@ export class MatchScene extends Phaser.Scene {
     }
     actor.ammo = spentAmmo;
     actor.cooldownMs = weapon.fireIntervalMs;
+    this.muzzleFlashes.push({
+      x: actor.x + Math.cos(actor.angle) * 29,
+      y: actor.y + Math.sin(actor.angle) * 29,
+      angle: actor.angle,
+      team: actor.team,
+      size: feel.muzzleSize,
+      remainingMs: 55,
+      totalMs: 55,
+    });
     const moving = Math.hypot(actor.velocity.x, actor.velocity.y) > 55;
     const spread = weapon.spread * (moving ? weapon.movingSpreadMultiplier : 1);
     for (let pellet = 0; pellet < weapon.pellets; pellet += 1) {
       const offset = weapon.pellets === 1 ? this.random.between(-spread, spread) :
         Phaser.Math.Linear(-spread, spread, pellet / Math.max(1, weapon.pellets - 1)) + this.random.between(-spread * 0.08, spread * 0.08);
-      this.performHitscan(actor, actor.angle + offset, weapon.range, weapon.damage);
+      this.performHitscan(actor, actor.angle + offset, weapon.range, weapon.damage, feel.tracerWidth, feel.tracerLifetimeMs);
     }
-    this.cameraShake = Math.min(5, this.cameraShake + (actor === this.controlled ? 2.3 : 0.5));
-    if (actor === this.controlled) this.soundSynth.play('shot');
+    this.cameraShake = Math.min(6, this.cameraShake + (actor === this.controlled ? feel.cameraKick : 0.35));
+    if (actor === this.controlled) this.soundSynth.play(`shot-${actor.weapon}`);
   }
 
-  private performHitscan(actor: ActorState, angle: number, range: number, damage: number): void {
+  private performHitscan(actor: ActorState, angle: number, range: number, damage: number, tracerWidth: number, tracerLifetimeMs: number): void {
     const direction = { x: Math.cos(angle), y: Math.sin(angle) };
     let closest = this.wallDistance(actor, direction, range);
     let target: ActorState | null = null;
@@ -681,7 +708,9 @@ export class MatchScene extends Phaser.Scene {
       start: { x: actor.x + direction.x * 20, y: actor.y + direction.y * 20 },
       end,
       team: actor.team,
-      remainingMs: 75,
+      remainingMs: tracerLifetimeMs,
+      totalMs: tracerLifetimeMs,
+      width: tracerWidth,
     });
     if (target) this.damageActor(target, damage, actor);
     else if (closest < range - 2) this.spawnImpacts(end, 3);
@@ -734,6 +763,7 @@ export class MatchScene extends Phaser.Scene {
       this.hitMarkerMs = 130;
       this.soundSynth.play('hit');
     }
+    if (target === this.controlled) this.cameraShake = Math.min(6, this.cameraShake + 1.15);
     if (target.hp > 0) return;
 
     target.hp = 0;
@@ -756,10 +786,17 @@ export class MatchScene extends Phaser.Scene {
       this.killMarkerMs = 350;
       this.soundSynth.play('kill');
     }
-    if (target === this.controlled) this.performTakeover(target);
+    if (target === this.controlled) this.beginTakeover(target);
   }
 
-  private performTakeover(deadActor: ActorState): void {
+  private beginTakeover(deadActor: ActorState): void {
+    this.clearInputState();
+    this.controlled = null;
+    this.pendingTakeover = { deadActor, remainingMs: 620 };
+    this.announce('OPERATOR DOWN  ·  TRANSFERRING CONTROL', 620);
+  }
+
+  private completeTakeover(deadActor: ActorState): void {
     const allies = this.actors.filter((actor) => actor.team === deadActor.team && actor.id !== deadActor.id);
     const selectedId = chooseTakeoverCandidate(deadActor, allies.map((actor) => ({
       id: actor.id,
@@ -780,17 +817,22 @@ export class MatchScene extends Phaser.Scene {
     actor.ai = false;
     actor.path = [];
     actor.pathIndex = 0;
+    depenetrateActor(actor, ACTOR_RADIUS, isBlocked);
     this.controlled = actor;
     this.cameras.main.startFollow(actor.sprite, true, 0.09, 0.09);
     this.cameras.main.setDeadzone(80, 55);
     if (announce) this.matchEvents.emit('takeover:completed', { actorId: actor.id });
-    if (announce) this.announce(`CONTROL TRANSFER  ·  ${actor.name}`, 1400);
+    if (announce) {
+      this.soundSynth.play('takeover');
+      this.announce(`TAKEOVER COMPLETE  ·  ${actor.name}`, 1400);
+    }
   }
 
   private startReload(actor: ActorState): void {
     const weapon = WEAPONS[actor.weapon];
     if (actor.reloadMs > 0 || actor.ammo.magazine >= weapon.magazineSize || actor.ammo.reserve <= 0) return;
     actor.reloadMs = weapon.reloadMs;
+    if (actor === this.controlled) this.soundSynth.play('reload');
   }
 
   private throwSmoke(actor: ActorState, target: Point): void {
@@ -1039,8 +1081,22 @@ export class MatchScene extends Phaser.Scene {
 
     this.effectGraphics.clear();
     for (const tracer of this.tracers) {
-      this.effectGraphics.lineStyle(2, tracer.team === 'blue' ? 0xffdc65 : 0xff7858, tracer.remainingMs / 75);
+      this.effectGraphics.lineStyle(tracer.width, tracer.team === 'blue' ? 0xffdc65 : 0xff7858, tracer.remainingMs / tracer.totalMs);
       this.effectGraphics.lineBetween(tracer.start.x, tracer.start.y, tracer.end.x, tracer.end.y);
+    }
+    for (const flash of this.muzzleFlashes) {
+      const fade = Phaser.Math.Clamp(flash.remainingMs / flash.totalMs, 0, 1);
+      const forward = { x: Math.cos(flash.angle), y: Math.sin(flash.angle) };
+      const side = { x: -forward.y, y: forward.x };
+      this.effectGraphics.fillStyle(flash.team === 'blue' ? 0xffe69b : 0xff9c62, fade);
+      this.effectGraphics.fillTriangle(
+        flash.x + forward.x * flash.size,
+        flash.y + forward.y * flash.size,
+        flash.x - forward.x * flash.size * 0.35 + side.x * flash.size * 0.42,
+        flash.y - forward.y * flash.size * 0.35 + side.y * flash.size * 0.42,
+        flash.x - forward.x * flash.size * 0.35 - side.x * flash.size * 0.42,
+        flash.y - forward.y * flash.size * 0.35 - side.y * flash.size * 0.42,
+      );
     }
     for (const impact of this.impacts) {
       this.effectGraphics.fillStyle(0xffd862, Phaser.Math.Clamp(impact.remainingMs / 250, 0, 1));

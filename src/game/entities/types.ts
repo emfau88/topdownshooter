@@ -49,6 +49,16 @@ export interface TracerState {
   end: Point;
   team: Team;
   remainingMs: number;
+  totalMs: number;
+  width: number;
+}
+
+export interface MuzzleFlashState extends Point {
+  angle: number;
+  team: Team;
+  size: number;
+  remainingMs: number;
+  totalMs: number;
 }
 
 export interface ImpactState extends Point {

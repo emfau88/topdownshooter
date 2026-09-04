@@ -168,7 +168,7 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 - [x] neue Map ohne finale Grafik spielbar
 - [x] drei Lanes und mindestens zwei Querverbindungen vorhanden
 - [x] alle drei Waffen besitzen sinnvolle Einsatzbereiche
-- [ ] Sichtlinien, Smoke, Pickups und Takeover funktionieren
+- [~] Sichtlinien, Smoke, Pickups und Takeover funktionieren; neuer Takeover-Flow benötigt noch Spieltest
 - [ ] Bots erreichen alle spielrelevanten Bereiche
 
 ## G4 — First Art Complete
@@ -255,12 +255,12 @@ Ziel: Layout und Kampfentfernungen ohne Abhängigkeit von finaler Grafik validie
 
 Ziel: Alle verbindlichen Spielregeln mit Graybox-Grafik korrekt und testbar abschließen.
 
-- [ ] unabhängige Bewegungs- und Zielrichtung ermöglichen
+- [x] unabhängige Bewegungs- und Zielrichtung ermöglichen
 - [ ] Touch Aim-Lock stabilisieren
-- [ ] Fire- und Reload-Flows vervollständigen
-- [ ] Rifle-Verhalten finalisieren
-- [ ] SMG-Verhalten finalisieren
-- [ ] Shotgun-Pellets und Shell-Verbrauch finalisieren
+- [~] Fire- und Reload-Flows: distinct SFX, Muzzle Flash, Tracer und Kick implementiert; Spieltest offen
+- [~] Rifle-Verhalten: kontrolliertes, langlebiges Tracer-/Kick-Profil implementiert; Spieltest offen
+- [~] SMG-Verhalten: leichteres High-RPM-Profil implementiert; Spieltest offen
+- [~] Shotgun-Pellets und Shell-Verbrauch: schweres Spread-/Feedback-Profil implementiert; Spieltest offen
 - [ ] Rüstung und Schaden finalisieren
 - [ ] Ammo- und Medkit-Regeln finalisieren
 - [ ] Smoke-Zielen, Wurf und Sichtblockierung finalisieren
@@ -648,6 +648,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Crossline Yard Graybox | Originale 3-Lane-/Loop-Map mit central Objective und zwei Querverbindungen, unabhängig von V7 |
 | 2026-09-04 | Crossline Depot replaces Crossline Yard | Symmetrische Spawnformationen, drei klare Routen, zwei Crossover-Baffles, offene Pressure Zone und risikobasierte Pickups ersetzen die diagonale, zufällige Anordnung |
 | 2026-09-04 | B0 character display compensation | Der großzügig gepaddete Top-down-Atlas wird doppelt so groß gerendert, damit seine sichtbare Figur den älteren, enger beschnittenen Sprites entspricht |
+| 2026-09-04 | Combat-feel first pass | Waffen erhalten getrennte Kick-, Muzzle-Flash-, Tracer- und Synth-Sound-Profile; Takeover wird als 620-ms-Übergabe mit Input-Reset und Depenetration inszeniert |
 | 2026-09-04 | Waffenrollen als Graybox-Grenzen | Rifle, SMG und Shotgun sind durch Reichweite, Preferred Range und Feuermodus datenbasiert getrennt |
 | 2026-09-04 | Rundenende als einmalige Zustandsübergabe | Nur die aktive Combat-Phase darf Score und Folgephase verändern |
 
@@ -686,6 +687,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Graybox-Navigation | 6 Spawnpunkte erreichen obere, mittlere und untere Lane; zentrale Passage auf 96 px korrigiert; 34/34 Tests bestanden |
 | 2026-09-04 | Core-Outcome-Modell | Rundensieg wird nur während Combat akzeptiert; 38/38 Tests und Produktions-Build bestanden |
 | 2026-09-04 | Crossline Depot Graybox | 6 Spawnpunkte erreichen alle drei Lane-Ziele; 38/38 Tests und Produktions-Build nach Map-Neubau bestanden |
+| 2026-09-04 | Combat-feel first pass | Waffenprofile und Takeover-Sequenz bauen; 40/40 Tests und Produktions-Build bestanden |
 
 ---
 
