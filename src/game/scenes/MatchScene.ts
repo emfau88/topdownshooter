@@ -18,6 +18,7 @@ import {
 import { DebugOverlay } from '../rendering/DebugOverlay';
 import { MatchEvents } from '../systems/MatchEvents';
 import { moveActor, separateActors } from '../systems/movement';
+import { createTouchState } from '../systems/touchState';
 import { createActor } from '../entities/createActor';
 import type {
   ActorState,
@@ -26,7 +27,6 @@ import type {
   ImpactState,
   PickupState,
   SmokeState,
-  StickState,
   TracerState,
 } from '../entities/types';
 import { COLLIDERS, PICKUP_POSITIONS, PROPS, STATIC_WALLS, isBlocked } from '../map';
@@ -80,11 +80,7 @@ export class MatchScene extends Phaser.Scene {
   private captureState: CaptureState = { activeTeam: null, progressSeconds: 0 };
   private score: Record<Team, number> = { blue: 0, red: 0 };
 
-  private moveStick: StickState = { pointerId: null, active: false, x: 0, y: 0 };
-  private aimStick: StickState = { pointerId: null, active: false, x: 0, y: 0 };
-  private smokePointerId: number | null = null;
-  private smokeTarget: Point | null = null;
-  private firePointers = new Set<number>();
+  private touchState = createTouchState();
   private keys!: Record<'up' | 'down' | 'left' | 'right' | 'fire' | 'reload' | 'smoke', Phaser.Input.Keyboard.Key>;
 
   private zoneGraphics!: Phaser.GameObjects.Graphics;
@@ -492,9 +488,9 @@ export class MatchScene extends Phaser.Scene {
     const layout = this.getControlLayout();
     let moveX = 0;
     let moveY = 0;
-    if (this.moveStick.active) {
-      const dx = this.moveStick.x - layout.move.x;
-      const dy = this.moveStick.y - layout.move.y;
+    if (this.touchState.moveStick.active) {
+      const dx = this.touchState.moveStick.x - layout.move.x;
+      const dy = this.touchState.moveStick.y - layout.move.y;
       const magnitude = Math.hypot(dx, dy) || 1;
       const power = Phaser.Math.Clamp(magnitude / layout.move.radius, 0, 1);
       moveX = dx / magnitude * power;
@@ -514,12 +510,12 @@ export class MatchScene extends Phaser.Scene {
     moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000, ACTOR_RADIUS, isBlocked);
 
     const activePointer = this.input.activePointer;
-    if (activePointer.id === 0 && !this.aimStick.active) {
+    if (activePointer.id === 0 && !this.touchState.aimStick.active) {
       const world = this.cameras.main.getWorldPoint(activePointer.x, activePointer.y);
       if (distance(actor, world) > 16) actor.angle = Math.atan2(world.y - actor.y, world.x - actor.x);
     }
 
-    if (this.firePointers.size > 0 || this.keys.fire.isDown) this.fire(actor);
+    if (this.touchState.firePointers.size > 0 || this.keys.fire.isDown) this.fire(actor);
     if (Phaser.Input.Keyboard.JustDown(this.keys.reload)) this.startReload(actor);
     if (Phaser.Input.Keyboard.JustDown(this.keys.smoke)) {
       this.throwSmoke(actor, {
@@ -920,7 +916,7 @@ export class MatchScene extends Phaser.Scene {
     if (this.phase !== 'combat' && this.phase !== 'countdown') return;
     const layout = this.getControlLayout();
     if (this.inside(pointer, layout.fire)) {
-      this.firePointers.add(pointer.id);
+      this.touchState.firePointers.add(pointer.id);
       return;
     }
     if (this.inside(pointer, layout.reload)) {
@@ -928,38 +924,38 @@ export class MatchScene extends Phaser.Scene {
       return;
     }
     if (this.inside(pointer, layout.smoke) && this.controlled && this.controlled.grenades > 0) {
-      this.smokePointerId = pointer.id;
-      this.smokeTarget = { x: this.controlled.x, y: this.controlled.y };
+      this.touchState.smokePointerId = pointer.id;
+      this.touchState.smokeTarget = { x: this.controlled.x, y: this.controlled.y };
       return;
     }
     if (this.inside(pointer, layout.move)) {
-      this.moveStick = { pointerId: pointer.id, active: true, x: pointer.x, y: pointer.y };
+      this.touchState.moveStick = { pointerId: pointer.id, active: true, x: pointer.x, y: pointer.y };
       return;
     }
     if (this.inside(pointer, layout.aim)) {
-      this.aimStick = { pointerId: pointer.id, active: true, x: pointer.x, y: pointer.y };
+      this.touchState.aimStick = { pointerId: pointer.id, active: true, x: pointer.x, y: pointer.y };
       this.updateAimFromPointer(pointer, layout);
     }
   }
 
   private handlePointerMove(pointer: Phaser.Input.Pointer): void {
     const layout = this.getControlLayout();
-    if (this.moveStick.pointerId === pointer.id) {
-      this.moveStick.x = pointer.x;
-      this.moveStick.y = pointer.y;
+    if (this.touchState.moveStick.pointerId === pointer.id) {
+      this.touchState.moveStick.x = pointer.x;
+      this.touchState.moveStick.y = pointer.y;
     }
-    if (this.aimStick.pointerId === pointer.id) {
-      this.aimStick.x = pointer.x;
-      this.aimStick.y = pointer.y;
+    if (this.touchState.aimStick.pointerId === pointer.id) {
+      this.touchState.aimStick.x = pointer.x;
+      this.touchState.aimStick.y = pointer.y;
       this.updateAimFromPointer(pointer, layout);
     }
-    if (this.smokePointerId === pointer.id && this.controlled) {
+    if (this.touchState.smokePointerId === pointer.id && this.controlled) {
       const dx = pointer.x - layout.smoke.x;
       const dy = pointer.y - layout.smoke.y;
       const magnitude = Math.hypot(dx, dy);
       const angle = magnitude > 8 ? Math.atan2(dy, dx) : this.controlled.angle;
       const power = Phaser.Math.Clamp(magnitude / (150 * layout.scale), 0.22, 1);
-      this.smokeTarget = {
+      this.touchState.smokeTarget = {
         x: this.controlled.x + Math.cos(angle) * (90 + 230 * power),
         y: this.controlled.y + Math.sin(angle) * (90 + 230 * power),
       };
@@ -967,14 +963,14 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private handlePointerUp(pointer: Phaser.Input.Pointer): void {
-    if (this.moveStick.pointerId === pointer.id) this.moveStick = { pointerId: null, active: false, x: 0, y: 0 };
-    if (this.aimStick.pointerId === pointer.id) this.aimStick = { pointerId: null, active: false, x: 0, y: 0 };
-    if (this.smokePointerId === pointer.id) {
-      if (this.controlled && this.smokeTarget) this.throwSmoke(this.controlled, this.smokeTarget);
-      this.smokePointerId = null;
-      this.smokeTarget = null;
+    if (this.touchState.moveStick.pointerId === pointer.id) this.touchState.moveStick = { pointerId: null, active: false, x: 0, y: 0 };
+    if (this.touchState.aimStick.pointerId === pointer.id) this.touchState.aimStick = { pointerId: null, active: false, x: 0, y: 0 };
+    if (this.touchState.smokePointerId === pointer.id) {
+      if (this.controlled && this.touchState.smokeTarget) this.throwSmoke(this.controlled, this.touchState.smokeTarget);
+      this.touchState.smokePointerId = null;
+      this.touchState.smokeTarget = null;
     }
-    this.firePointers.delete(pointer.id);
+    this.touchState.firePointers.delete(pointer.id);
   }
 
   private updateAimFromPointer(pointer: Phaser.Input.Pointer, layout: ControlLayout): void {
@@ -985,11 +981,7 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private clearInputState(): void {
-    this.moveStick = { pointerId: null, active: false, x: 0, y: 0 };
-    this.aimStick = { pointerId: null, active: false, x: 0, y: 0 };
-    this.smokePointerId = null;
-    this.smokeTarget = null;
-    this.firePointers.clear();
+    this.touchState = createTouchState();
   }
 
   private getControlLayout(): ControlLayout {
@@ -1072,12 +1064,12 @@ export class MatchScene extends Phaser.Scene {
       this.statusGraphics.fillRect(actor.x - 23, actor.y - 32, 46 * actor.hp / 100, 5);
     }
 
-    if (this.smokeTarget && this.controlled) {
+    if (this.touchState.smokeTarget && this.controlled) {
       this.statusGraphics.lineStyle(2, 0xe9dfbe, 0.7);
-      this.statusGraphics.lineBetween(this.controlled.x, this.controlled.y, this.smokeTarget.x, this.smokeTarget.y);
+      this.statusGraphics.lineBetween(this.controlled.x, this.controlled.y, this.touchState.smokeTarget.x, this.touchState.smokeTarget.y);
       this.statusGraphics.fillStyle(0xded8c1, 0.1);
-      this.statusGraphics.fillCircle(this.smokeTarget.x, this.smokeTarget.y, 30);
-      this.statusGraphics.strokeCircle(this.smokeTarget.x, this.smokeTarget.y, 30);
+      this.statusGraphics.fillCircle(this.touchState.smokeTarget.x, this.touchState.smokeTarget.y, 30);
+      this.statusGraphics.strokeCircle(this.touchState.smokeTarget.x, this.touchState.smokeTarget.y, 30);
     }
   }
 
@@ -1201,9 +1193,9 @@ export class MatchScene extends Phaser.Scene {
     }
 
     let moveKnob = { x: layout.move.x, y: layout.move.y };
-    if (this.moveStick.active) {
-      const dx = this.moveStick.x - layout.move.x;
-      const dy = this.moveStick.y - layout.move.y;
+    if (this.touchState.moveStick.active) {
+      const dx = this.touchState.moveStick.x - layout.move.x;
+      const dy = this.touchState.moveStick.y - layout.move.y;
       const magnitude = Math.hypot(dx, dy) || 1;
       const length = Math.min(layout.move.radius * 0.55, magnitude);
       moveKnob = { x: layout.move.x + dx / magnitude * length, y: layout.move.y + dy / magnitude * length };
@@ -1217,13 +1209,13 @@ export class MatchScene extends Phaser.Scene {
       16 * layout.scale,
     );
 
-    this.hudGraphics.fillStyle(this.firePointers.size > 0 ? 0xd54832 : 0x6f3026, 0.92);
+    this.hudGraphics.fillStyle(this.touchState.firePointers.size > 0 ? 0xd54832 : 0x6f3026, 0.92);
     this.hudGraphics.fillCircle(layout.fire.x, layout.fire.y, layout.fire.radius);
     this.hudGraphics.lineStyle(3, 0xf1d17c, 0.9);
     this.hudGraphics.strokeCircle(layout.fire.x, layout.fire.y, layout.fire.radius);
     this.positionButtonText(this.fireButtonText, layout.fire.x, layout.fire.y, 'FIRE', 11 * layout.scale);
 
-    this.hudGraphics.fillStyle(this.smokePointerId !== null ? 0x6e6750 : 0x252821, 0.94);
+    this.hudGraphics.fillStyle(this.touchState.smokePointerId !== null ? 0x6e6750 : 0x252821, 0.94);
     this.hudGraphics.fillCircle(layout.smoke.x, layout.smoke.y, layout.smoke.radius);
     this.hudGraphics.lineStyle(2, 0xc8c2aa, 0.8);
     this.hudGraphics.strokeCircle(layout.smoke.x, layout.smoke.y, layout.smoke.radius);

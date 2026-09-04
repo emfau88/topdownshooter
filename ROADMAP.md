@@ -554,7 +554,7 @@ ui_button_fire_default_v01.png
 - [x] Shotgun verbraucht eine Shell pro Schuss
 - [x] Smoke blockiert Sicht, nicht Projektile
 - [ ] Rundensieg nur einmal auslösbar
-- [ ] Touchzustände nach Takeover vollständig gelöscht
+- [x] Touchzustände nach Takeover vollständig gelöscht
 - [ ] Match endet nach drei Rundensiegen
 
 ## 6.2 Manuelle Spieltests
@@ -634,6 +634,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Schussverbrauch und Rüstung als reine Combat-Regeln | Weapon- und Damage-Zustand bleiben ohne Phaser testbar |
 | 2026-09-04 | Sichtlinie und Smoke als reine Regel | Smoke wird nur vom Sichtsystem ausgewertet, nie vom Hitscan-System |
 | 2026-09-04 | Bewegung und Depenetration als eigenes System | Kollisionstest wird injiziert; Bewegung bleibt ohne Phaser testbar |
+| 2026-09-04 | Touch-Steuerung als atomarer Zustand | Takeover und Rundenstart ersetzen alle aktiven Touch-Pointer gemeinsam |
 
 ---
 
@@ -657,6 +658,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Asset-Manifest-Prüfung | eine Manifestdatei erfolgreich gegen Quellpfade, Canvas, Pivots und Freigabestatus validiert |
 | 2026-09-04 | P0 Combat-/Visibility-Snapshot | Commit `a4da894` erstellt |
 | 2026-09-04 | P0 Movement-System | 23/23 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | P0 Touch-State-System | 24/24 automatisierte Tests und Produktions-Build bestanden |
 
 ---
 
