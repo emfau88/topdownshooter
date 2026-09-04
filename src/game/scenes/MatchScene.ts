@@ -17,6 +17,7 @@ import {
 } from '../config';
 import { DebugOverlay } from '../rendering/DebugOverlay';
 import { MatchEvents } from '../systems/MatchEvents';
+import { moveActor, separateActors } from '../systems/movement';
 import { createActor } from '../entities/createActor';
 import type {
   ActorState,
@@ -432,7 +433,7 @@ export class MatchScene extends Phaser.Scene {
     for (const actor of this.actors) {
       if (actor.ai && actor.alive) this.updateAi(actor, deltaMs);
     }
-    this.separateActors();
+    separateActors(this.actors, ACTOR_RADIUS, isBlocked);
     this.updatePickups();
     this.updatePressureZone(deltaMs);
 
@@ -510,7 +511,7 @@ export class MatchScene extends Phaser.Scene {
 
     actor.velocity.x = moveX * actor.speed;
     actor.velocity.y = moveY * actor.speed;
-    this.moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000);
+    moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000, ACTOR_RADIUS, isBlocked);
 
     const activePointer = this.input.activePointer;
     if (activePointer.id === 0 && !this.aimStick.active) {
@@ -557,13 +558,13 @@ export class MatchScene extends Phaser.Scene {
       } else if (separation < preferred - 80) {
         actor.velocity.x = -Math.cos(targetAngle) * actor.speed * 0.62;
         actor.velocity.y = -Math.sin(targetAngle) * actor.speed * 0.62;
-        this.moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000);
+        moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000, ACTOR_RADIUS, isBlocked);
       } else {
         const side = actor.tacticalIndex % 2 === 0 ? 1 : -1;
         const strafeAngle = targetAngle + side * Math.PI / 2;
         actor.velocity.x = Math.cos(strafeAngle) * 56;
         actor.velocity.y = Math.sin(strafeAngle) * 56;
-        this.moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000);
+        moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000, ACTOR_RADIUS, isBlocked);
       }
 
       const weapon = WEAPONS[actor.weapon];
@@ -618,58 +619,8 @@ export class MatchScene extends Phaser.Scene {
     const angle = Math.atan2(waypoint.y - actor.y, waypoint.x - actor.x);
     actor.velocity.x = Math.cos(angle) * actor.speed;
     actor.velocity.y = Math.sin(angle) * actor.speed;
-    this.moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000);
+    moveActor(actor, actor.velocity.x * deltaMs / 1000, actor.velocity.y * deltaMs / 1000, ACTOR_RADIUS, isBlocked);
     if (!actor.lastSeen) actor.angle = moveAngleToward(actor.angle, angle, deltaMs / 240);
-  }
-
-  private moveActor(actor: ActorState, dx: number, dy: number): void {
-    if (isBlocked(actor.x, actor.y, ACTOR_RADIUS)) this.depenetrate(actor);
-    if (!isBlocked(actor.x + dx, actor.y, ACTOR_RADIUS)) actor.x += dx;
-    if (!isBlocked(actor.x, actor.y + dy, ACTOR_RADIUS)) actor.y += dy;
-  }
-
-  private depenetrate(actor: ActorState): void {
-    const origin = { x: actor.x, y: actor.y };
-    for (let radius = 6; radius <= 96; radius += 6) {
-      for (let index = 0; index < 16; index += 1) {
-        const angle = index / 16 * Math.PI * 2;
-        const x = origin.x + Math.cos(angle) * radius;
-        const y = origin.y + Math.sin(angle) * radius;
-        if (!isBlocked(x, y, ACTOR_RADIUS)) {
-          actor.x = x;
-          actor.y = y;
-          actor.path = [];
-          actor.pathIndex = 0;
-          return;
-        }
-      }
-    }
-  }
-
-  private separateActors(): void {
-    const living = this.actors.filter((actor) => actor.alive);
-    for (let first = 0; first < living.length; first += 1) {
-      for (let second = first + 1; second < living.length; second += 1) {
-        const a = living[first];
-        const b = living[second];
-        if (!a || !b) continue;
-        const dx = b.x - a.x;
-        const dy = b.y - a.y;
-        const magnitude = Math.hypot(dx, dy) || 1;
-        const overlap = ACTOR_RADIUS * 2 - magnitude;
-        if (overlap <= 0) continue;
-        const pushX = dx / magnitude * overlap * 0.5;
-        const pushY = dy / magnitude * overlap * 0.5;
-        if (!isBlocked(a.x - pushX, a.y - pushY, ACTOR_RADIUS)) {
-          a.x -= pushX;
-          a.y -= pushY;
-        }
-        if (!isBlocked(b.x + pushX, b.y + pushY, ACTOR_RADIUS)) {
-          b.x += pushX;
-          b.y += pushY;
-        }
-      }
-    }
   }
 
   private fire(actor: ActorState): void {
