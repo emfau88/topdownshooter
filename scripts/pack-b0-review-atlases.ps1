@@ -11,8 +11,8 @@ function Copy-Atlas([string] $Source, [string] $Destination) {
   Copy-Item -LiteralPath (Join-Path $approved $Source) -Destination (Join-Path $atlasDirectory $Destination) -Force
 }
 
-Copy-Atlas 'character_blue_rifle_idle_v01.png' 'characters-b0-review.png'
-Copy-Atlas 'pickup_medkit_idle_v01.png' 'gameplay-b0-review.png'
+Copy-Atlas 'character_blue_rifle_idle_v01.png' 'characters-b0.png'
+Copy-Atlas 'pickup_medkit_idle_v01.png' 'gameplay-b0.png'
 
 $wall = [System.Drawing.Bitmap]::new((Join-Path $approved 'environment_wall_straight_v01.png'))
 $crate = [System.Drawing.Bitmap]::new((Join-Path $approved 'prop_crate_standard_v01.png'))
@@ -25,7 +25,7 @@ try {
       $graphics.DrawImageUnscaled($wall, 0, 0)
       $graphics.DrawImageUnscaled($crate, 512, 0)
     } finally { $graphics.Dispose() }
-    $environment.Save((Join-Path $atlasDirectory 'environment-b0-review.png'), [System.Drawing.Imaging.ImageFormat]::Png)
+    $environment.Save((Join-Path $atlasDirectory 'environment-b0.png'), [System.Drawing.Imaging.ImageFormat]::Png)
   } finally { $environment.Dispose() }
 } finally {
   $wall.Dispose()
@@ -33,7 +33,7 @@ try {
 }
 
 @{
-  atlas = 'environment-b0-review.png'
+  atlas = 'environment-b0.png'
   frames = @{
     'environment.wall.straight' = @{ x = 0; y = 0; width = 512; height = 256 }
     'prop.crate.standard' = @{ x = 512; y = 0; width = 256; height = 256 }

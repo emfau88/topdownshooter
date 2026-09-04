@@ -1,42 +1,42 @@
 {
   "$schema": "../asset-manifest.schema.json",
   "batch": "B0",
-  "status": "in-progress",
+  "status": "approved",
   "styleGuide": "../../ART_STYLEGUIDE.md",
   "assets": [
     {
       "id": "character.blue.rifle.idle",
       "source": "art/source/character_blue_rifle_idle_v01.png",
-      "runtime": "public/assets/atlases/characters.png",
+      "runtime": "public/assets/atlases/characters-b0.png",
       "canvas": [384, 384],
       "pivot": [0.5, 0.68],
       "collisionRadius": 17,
-      "approval": "candidate"
+      "approval": "approved"
     },
     {
       "id": "environment.wall.straight",
       "source": "art/source/environment_wall_straight_v01.png",
-      "runtime": "public/assets/atlases/environment.png",
+      "runtime": "public/assets/atlases/environment-b0.png",
       "canvas": [512, 256],
       "pivot": [0.5, 0.5],
-      "approval": "candidate"
+      "approval": "approved"
     },
     {
       "id": "prop.crate.standard",
       "source": "art/source/prop_crate_standard_v01.png",
-      "runtime": "public/assets/atlases/environment.png",
+      "runtime": "public/assets/atlases/environment-b0.png",
       "canvas": [256, 256],
       "pivot": [0.5, 0.5],
       "collisionFootprint": [0.7, 0.7],
-      "approval": "candidate"
+      "approval": "approved"
     },
     {
       "id": "pickup.medkit.idle",
       "source": "art/source/pickup_medkit_idle_v01.png",
-      "runtime": "public/assets/atlases/gameplay.png",
+      "runtime": "public/assets/atlases/gameplay-b0.png",
       "canvas": [256, 256],
       "pivot": [0.5, 0.5],
-      "approval": "candidate"
+      "approval": "approved"
     }
   ]
 }

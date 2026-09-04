@@ -8,9 +8,9 @@
 |---|---|
 | Letzte Aktualisierung | 2026-09-04 |
 | Produktziel | Hochwertiger spielbarer Mobile-Web-Slice |
-| Aktuelle Produktionsstufe | P1 — Art Direction und Asset-Vertrag |
-| Aktueller Batch | B0 — Style-Anker: Ingame-Review und Freigabe |
-| Nächstes Gate | G2 — Style-Lock |
+| Aktuelle Produktionsstufe | P2 — Asset-Pipeline automatisieren |
+| Aktueller Batch | B0 abgeschlossen; Pipeline-Härtung |
+| Nächstes Gate | G3 — Graybox und Core Combat |
 | Primärplattform | Android, Chrome/Chromium, Landscape |
 | Mindestgröße | 720 × 360 CSS-Pixel |
 | Sekundärziele | Desktop Chrome/Edge; Safari/iOS funktional |
@@ -155,13 +155,13 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 
 ## G2 — Style-Lock
 
-- [ ] Styleguide mit Kamera-, Licht-, Farb- und Konturregeln vorhanden
-- [ ] blauer Rifle-Soldat als Character-Anker freigegeben
-- [ ] Wandmodul als Environment-Anker freigegeben
-- [ ] Kiste als Prop-Anker freigegeben
-- [ ] Medkit als Pickup-/UI-Anker freigegeben
-- [~] alle vier Anker funktionieren gemeinsam bei 720 × 360
-- [~] echte 90°-Top-down-Perspektive visuell bestätigt
+- [x] Styleguide mit Kamera-, Licht-, Farb- und Konturregeln vorhanden
+- [x] blauer Rifle-Soldat als Character-Anker freigegeben
+- [x] Wandmodul als Environment-Anker freigegeben
+- [x] Kiste als Prop-Anker freigegeben
+- [x] Medkit als Pickup-/UI-Anker freigegeben
+- [x] alle vier Anker funktionieren gemeinsam bei 720 × 360
+- [x] echte 90°-Top-down-Perspektive visuell bestätigt
 
 ## G3 — Graybox und Core Combat
 
@@ -196,7 +196,7 @@ Ziel: Aus dem funktionalen Mechanics-Spike eine belastbare Produktionsbasis mach
 
 - [x] Git initialisieren und Ausgangsstand committen
 - [x] Projektkonventionen und Formatierung festlegen
-- [~] `MatchScene` in kleinere Systeme zerlegen
+- [x] `MatchScene` in kleinere Systeme zerlegen
 - [x] `Actor`, `Weapon`, `Pickup`, `Smoke` und `Round` als klare Zustandsmodelle definieren
 - [x] Gameplay-Events für Damage, Death, Capture, Pickup und Takeover einführen
 - [x] deterministischen Seed/PRNG einführen
@@ -216,9 +216,9 @@ Ziel: Eine reproduzierbare visuelle Sprache definieren, bevor Bulk-Produktion be
 - [x] Konturstärke und Detaildichte definieren
 - [x] Teamfarben und neutrale Materialpalette festlegen
 - [x] Pivot-, Padding- und Namenskonventionen festlegen
-- [~] vier B0-Style-Anker erzeugen
-- [~] Style-Anker einzeln und gemeinsam im Spiel testen
-- [ ] G2 abnehmen
+- [x] vier B0-Style-Anker erzeugen
+- [x] Style-Anker einzeln und gemeinsam im Spiel testen
+- [x] G2 abnehmen
 
 ## P2 — Asset-Pipeline automatisieren
 
@@ -279,10 +279,10 @@ Manifest → Kandidaten erzeugen → Review → gezielte Korrektur
 
 ### B0 — Style-Anker
 
-- [~] blauer Rifle-Soldat
-- [~] gerades Wandmodul
-- [~] Standardkiste
-- [~] Medkit
+- [x] blauer Rifle-Soldat
+- [x] gerades Wandmodul
+- [x] Standardkiste
+- [x] Medkit
 
 ### B1 — Character-Core
 
@@ -641,6 +641,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | KI-Zielpriorisierung als eigene Policy | Sichtbare Gegner, letzte Sichtung, Pressure Zone und Rally-Punkte sind testbar getrennt |
 | 2026-09-04 | B0-Quellen werden erst in Master-Canvas und dann in Review-Atlanten überführt | Quelldateien bleiben unverändert; jede Runtime-Variante ist reproduzierbar ableitbar |
 | 2026-09-04 | GitHub Pages per GitHub Actions | Jeder Push auf `master` testet, baut und deployt den Vite-Build als Pages-Artefakt |
+| 2026-09-04 | G2-Style-Lock | vier B0-Master, Runtime-Atlanten und Manifestfreigaben geprüft; mobile Geräte-QA bleibt Bestandteil von P9 |
 
 ---
 
@@ -672,6 +673,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | B0-Normalisierung und Review-Atlas | vier Master-Canvas und drei abgeleitete Review-PNGs plus Frame-JSON erzeugt; Quellen mit Randkontakt werden gewarnt und erhalten Runtime-Padding |
 | 2026-09-04 | B0-Runtime-Integration | Character-Anker, Wand, Kiste und Medkit werden im Match geladen; automatisierte Browserprüfung lokal nicht verfügbar, deshalb visuelle Abnahme noch offen |
 | 2026-09-04 | GitHub Pages Deployment | Actions-Run `33856906277` erfolgreich; öffentliche Seite antwortet mit HTTP 200 unter `https://emfau88.github.io/topdownshooter/` |
+| 2026-09-04 | G2-Style-Abnahme | B0-Manifest als `approved` validiert; 32/32 Tests und Produktions-Build bestanden |
 
 ---
 
