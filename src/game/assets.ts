@@ -30,6 +30,11 @@ const ENVIRONMENT_FRAMES: readonly FrameDefinition[] = [
   ['floor-hazard', 639, 29, 180, 184],
   ['floor-grate', 844, 29, 180, 184],
   ['floor-stain', 1052, 29, 178, 184],
+  // Inset variants remove the heavy baked edge from the source tiles. They are
+  // deliberately used for tiled floors, so the arena reads as one surface.
+  ['floor-olive-seamless', 32, 37, 164, 168],
+  ['floor-concrete-seamless', 234, 37, 164, 168],
+  ['floor-stain-seamless', 1060, 37, 162, 168],
   ['wall-horizontal', 31, 289, 299, 109],
   ['wall-vertical', 380, 244, 70, 194],
   ['wall-corner', 503, 244, 166, 196],

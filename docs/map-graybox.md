@@ -10,7 +10,7 @@ BLUE SPAWN ─┬─ upper lane ─┐     ┌─ upper lane ─┬─ RED SPAWN
             └─ lower lane ─┘     └─ lower lane ─┘
 ```
 
-- **Upper/lower lanes:** mirrored, medium-range routes. Structural lane walls break sightlines; loose crates are intentionally avoided.
+- **Upper/lower lanes:** mirrored, medium-range routes. Structural lane walls break sightlines; depot consoles, vents and supply lockers add atmosphere without becoming random collision clutter.
 - **Middle lane:** the fastest route, with two baffles blocking a direct spawn-to-spawn firing line.
 - **Crossovers:** players swap lanes before the centre at both baffles, then choose the north or south side of the objective shell.
 - **Spawns:** teams start in matching vertical three-person formations; each spawn has nearby cover and three clear exits.

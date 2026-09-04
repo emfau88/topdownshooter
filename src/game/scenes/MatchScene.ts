@@ -199,19 +199,21 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private createMap(): void {
-    // One coherent depot floor replaces the noisy asset-sheet tile collage.
-    const floor = this.add.graphics().setDepth(-100);
-    floor.fillStyle(0x28332d, 1);
-    floor.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
-    floor.fillStyle(0x323d35, 1);
-    floor.fillRect(42, 42, 1516, 876);
-    floor.fillStyle(0x404744, 1);
-    floor.fillRect(540, 118, 520, 724);
-    floor.fillStyle(0x363d39, 1);
-    floor.fillRect(42, 386, 1516, 188);
-    floor.lineStyle(3, 0x768078, 0.22);
-    floor.lineBetween(42, 386, 1558, 386);
-    floor.lineBetween(42, 574, 1558, 574);
+    // Keep the detailed floor kit, but use inset frames and a slight overlap to
+    // remove its old black chessboard-like borders.
+    const tileSize = 164;
+    for (let y = 0; y < WORLD_HEIGHT + tileSize; y += tileSize) {
+      for (let x = 0; x < WORLD_WIDTH + tileSize; x += tileSize) {
+        const central = x > 500 && x < 1100 && y > 160 && y < 800;
+        const frame = central
+          ? 'floor-concrete-seamless'
+          : ((x / tileSize + y / tileSize) % 5 === 0 ? 'floor-stain-seamless' : 'floor-olive-seamless');
+        this.add.image(x, y, ASSET_KEYS.environment, frame)
+          .setOrigin(0)
+          .setDisplaySize(tileSize + 3, tileSize + 3)
+          .setDepth(-100);
+      }
+    }
 
     const boundaryGraphics = this.add.graphics().setDepth(8);
     boundaryGraphics.fillStyle(0x252820, 1);
@@ -245,11 +247,8 @@ export class MatchScene extends Phaser.Scene {
     }
 
     const floorDetails = this.add.graphics().setDepth(-5);
-    floorDetails.lineStyle(3, 0xc89f44, 0.28);
-    for (let x = 88; x < WORLD_WIDTH - 42; x += 170) floorDetails.lineBetween(x, 480, Math.min(x + 76, WORLD_WIDTH - 42), 480);
-    floorDetails.lineStyle(2, 0xbcc4b8, 0.13);
-    floorDetails.lineBetween(800, 62, 800, 322);
-    floorDetails.lineBetween(800, 638, 800, 898);
+    floorDetails.lineStyle(2, 0xc89f44, 0.18);
+    floorDetails.strokeRect(578, 283, 444, 394);
   }
 
   private configureInput(): void {
@@ -955,7 +954,7 @@ export class MatchScene extends Phaser.Scene {
     this.fogRefreshMs = 80;
 
     this.fogTexture.clear();
-    this.fogTexture.fill(0x05080a, 0.7);
+    this.fogTexture.fill(0x05080a, 0.3);
     this.fogStencil.clear();
     this.fogStencil.fillStyle(0xffffff, 1);
     for (const actor of this.actors) {
@@ -1147,11 +1146,6 @@ export class MatchScene extends Phaser.Scene {
     }
 
     this.statusGraphics.clear();
-    if (this.controlled?.alive) {
-      // A subtle boundary makes the 720 px fog-reveal range legible at a glance.
-      this.statusGraphics.lineStyle(2, COLORS.blue, 0.24);
-      this.statusGraphics.strokeCircle(this.controlled.x, this.controlled.y, VISION_RADIUS);
-    }
     for (const actor of this.actors) {
       if (!actor.alive || !actor.sprite.visible) continue;
       const color = teamColor(actor.team);

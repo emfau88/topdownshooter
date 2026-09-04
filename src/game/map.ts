@@ -47,8 +47,14 @@ export const PROPS: readonly PropDefinition[] = [
   { kind: 'sandbags', x: 245, y: 721, width: 150, height: 64, solid: true },
   { kind: 'sandbags', x: 1205, y: 721, width: 150, height: 64, solid: true },
 
-  // The objective stays intentionally clear. Structural walls define the lanes;
-  // loose crates are not used as arbitrary maze pieces.
+  // Non-solid logistics set dressing establishes the depot theme without
+  // becoming random collision clutter or changing competitive routes.
+  { kind: 'console', x: 650, y: 245, width: 300, height: 70, solid: false },
+  { kind: 'console', x: 650, y: 645, width: 300, height: 70, solid: false },
+  { kind: 'vent', x: 90, y: 95, width: 125, height: 58, solid: false },
+  { kind: 'vent', x: 1385, y: 807, width: 125, height: 58, solid: false },
+  { kind: 'supply', x: 80, y: 788, width: 86, height: 86, solid: false },
+  { kind: 'supply', x: 1434, y: 86, width: 86, height: 86, solid: false },
 ];
 
 export const COLLIDERS: readonly MapRectangle[] = [
