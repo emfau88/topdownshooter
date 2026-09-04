@@ -9,6 +9,7 @@
     "assets:check": "node scripts/validate-assets.mjs",
     "assets:normalize-b0": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/normalize-b0-assets.ps1",
     "assets:pack-b0-review": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pack-b0-review-atlases.ps1",
+    "assets:contact-sheet": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/create-contact-sheet.ps1",
     "test": "vitest run",
     "test:watch": "vitest"
   },

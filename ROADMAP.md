@@ -226,12 +226,12 @@ Ziel: Einzelassets kontrolliert erzeugen, prüfen, normalisieren und reproduzier
 
 - [x] Ordner `art/source`, `art/anchors`, `art/approved` und `public/assets/atlases` anlegen
 - [x] zentrales Asset-Manifest erstellen
-- [ ] Prompt-Vorlagen pro Assetklasse versionieren
-- [~] Transparenz- und Randprüfung automatisieren
+- [x] Prompt-Vorlagen pro Assetklasse versionieren
+- [x] Transparenz- und Randprüfung automatisieren
 - [x] Trimming, Padding und Größen-Normalisierung automatisieren
 - [ ] Pivotpunkte und Kollisions-Footprints als Metadaten speichern
 - [~] Atlas-Packer mit JSON-Ausgabe erstellen
-- [ ] automatische Kontaktbögen für Review erzeugen
+- [x] automatische Kontaktbögen für Review erzeugen
 - [ ] doppelte oder ungenutzte Runtime-Assets melden
 - [x] Build gegen fehlende Quelldateien absichern
 
@@ -642,6 +642,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | B0-Quellen werden erst in Master-Canvas und dann in Review-Atlanten überführt | Quelldateien bleiben unverändert; jede Runtime-Variante ist reproduzierbar ableitbar |
 | 2026-09-04 | GitHub Pages per GitHub Actions | Jeder Push auf `master` testet, baut und deployt den Vite-Build als Pages-Artefakt |
 | 2026-09-04 | G2-Style-Lock | vier B0-Master, Runtime-Atlanten und Manifestfreigaben geprüft; mobile Geräte-QA bleibt Bestandteil von P9 |
+| 2026-09-04 | Prompt-Vorlagen und Kontaktbogen werden versioniert erzeugt | Character-, Environment- und Pickup-Vorlagen sichern die B0-Invarianten für die nächsten Batches |
 
 ---
 
@@ -674,6 +675,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | B0-Runtime-Integration | Character-Anker, Wand, Kiste und Medkit werden im Match geladen; automatisierte Browserprüfung lokal nicht verfügbar, deshalb visuelle Abnahme noch offen |
 | 2026-09-04 | GitHub Pages Deployment | Actions-Run `33856906277` erfolgreich; öffentliche Seite antwortet mit HTTP 200 unter `https://emfau88.github.io/topdownshooter/` |
 | 2026-09-04 | G2-Style-Abnahme | B0-Manifest als `approved` validiert; 32/32 Tests und Produktions-Build bestanden |
+| 2026-09-04 | B0-Kontaktbogen | automatisiert erzeugt und nach einer ASCII-Kodierungskorrektur ohne Textartefakte visuell geprüft |
 
 ---
 
