@@ -245,7 +245,7 @@ Ziel: Layout und Kampfentfernungen ohne Abhängigkeit von finaler Grafik validie
 - [x] zentrale Pressure Zone platzieren
 - [x] hohe Sichtblocker und niedrige Deckung unterscheiden
 - [x] lange ununterbrochene Sichtlinien vermeiden
-- [ ] Rifle-, SMG- und Shotgun-Distanzen auf der Map prüfen
+- [x] Rifle-, SMG- und Shotgun-Distanzen auf der Map prüfen
 - [ ] Pickup-Risiko und -Erreichbarkeit prüfen
 - [x] Navigationsraster und Zielpunkte erzeugen
 - [~] Bot-Stuck-Tests durchführen
@@ -553,7 +553,7 @@ ui_button_fire_default_v01.png
 - [x] Sudden Death exakt bei 0:00
 - [x] Shotgun verbraucht eine Shell pro Schuss
 - [x] Smoke blockiert Sicht, nicht Projektile
-- [ ] Rundensieg nur einmal auslösbar
+- [x] Rundensieg nur einmal auslösbar
 - [x] Touchzustände nach Takeover vollständig gelöscht
 - [x] Match endet nach drei Rundensiegen
 
@@ -644,6 +644,8 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | G2-Style-Lock | vier B0-Master, Runtime-Atlanten und Manifestfreigaben geprüft; mobile Geräte-QA bleibt Bestandteil von P9 |
 | 2026-09-04 | Prompt-Vorlagen und Kontaktbogen werden versioniert erzeugt | Character-, Environment- und Pickup-Vorlagen sichern die B0-Invarianten für die nächsten Batches |
 | 2026-09-04 | Crossline Yard Graybox | Originale 3-Lane-/Loop-Map mit central Objective und zwei Querverbindungen, unabhängig von V7 |
+| 2026-09-04 | Waffenrollen als Graybox-Grenzen | Rifle, SMG und Shotgun sind durch Reichweite, Preferred Range und Feuermodus datenbasiert getrennt |
+| 2026-09-04 | Rundenende als einmalige Zustandsübergabe | Nur die aktive Combat-Phase darf Score und Folgephase verändern |
 
 ---
 
@@ -678,6 +680,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | G2-Style-Abnahme | B0-Manifest als `approved` validiert; 32/32 Tests und Produktions-Build bestanden |
 | 2026-09-04 | B0-Kontaktbogen | automatisiert erzeugt und nach einer ASCII-Kodierungskorrektur ohne Textartefakte visuell geprüft |
 | 2026-09-04 | Graybox-Navigation | 6 Spawnpunkte erreichen obere, mittlere und untere Lane; zentrale Passage auf 96 px korrigiert; 34/34 Tests bestanden |
+| 2026-09-04 | Core-Outcome-Modell | Rundensieg wird nur während Combat akzeptiert; 38/38 Tests und Produktions-Build bestanden |
 
 ---
 

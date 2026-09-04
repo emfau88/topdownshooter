@@ -34,7 +34,7 @@ import { reloadAmmo } from '../model/ammo';
 import { applyDamage, spendShot } from '../model/combat';
 import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
-import { recordRoundWin } from '../model/match';
+import { resolveRoundEnd } from '../model/roundOutcome';
 import { createRoundClock, tickRoundClock } from '../model/round';
 import type { RoundClockState } from '../model/round';
 import { createSmoke, tickSmokes } from '../model/smoke';
@@ -856,17 +856,17 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private endRound(team: Team, reason: string): void {
-    if (this.phase !== 'combat') return;
-    const result = recordRoundWin(this.score, team);
+    const result = resolveRoundEnd({ phase: this.phase, score: this.score }, team);
+    if (!result) return;
     this.score = result.score;
     this.clearInputState();
     if (result.matchWinner) {
-      this.phase = 'match-over';
+      this.phase = result.phase;
       this.bannerText.setText(`${team.toUpperCase()} TAKES THE MATCH\n${this.score.blue} — ${this.score.red}\n\nTAP TO RESTART`)
         .setColor(team === 'blue' ? '#42a7ff' : '#ef5448');
       return;
     }
-    this.phase = 'round-over';
+    this.phase = result.phase;
     this.roundTransitionMs = 2800;
     this.bannerText.setText(`${team.toUpperCase()} WINS\n${reason}`)
       .setColor(team === 'blue' ? '#42a7ff' : '#ef5448');
