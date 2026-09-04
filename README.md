@@ -34,3 +34,5 @@ To review the current B0 art candidates without entering a match, add `?art-revi
 - `src/game/map.ts`: arena layout, collision, and line-of-sight geometry.
 - `src/game/navigation.ts`: grid-based A* pathfinding for bots.
 - `public/assets`: source atlases kept separate from the application bundle.
+
+The current original Graybox layout is documented in [docs/map-graybox.md](./docs/map-graybox.md).

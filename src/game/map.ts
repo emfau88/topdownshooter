@@ -36,7 +36,8 @@ export const STATIC_WALLS: readonly MapRectangle[] = [
   { x: 1110, y: 710, width: 280, height: 38 },
   { x: 1352, y: 570, width: 38, height: 178 },
   { x: 710, y: 395, width: 180, height: 54 },
-  { x: 710, y: 515, width: 180, height: 54 },
+  // A 96 px central passage keeps the objective accessible from every lane.
+  { x: 710, y: 545, width: 180, height: 54 },
   { x: 355, y: 455, width: 150, height: 48 },
   { x: 1095, y: 455, width: 150, height: 48 },
 ];
@@ -52,7 +53,8 @@ export const PROPS: readonly PropDefinition[] = [
   { kind: 'server', x: 1180, y: 270, width: 74, height: 112, solid: true },
   { kind: 'plant', x: 487, y: 208, width: 72, height: 92, solid: false },
   { kind: 'plant', x: 1045, y: 676, width: 72, height: 92, solid: false },
-  { kind: 'long-crate', x: 722, y: 738, width: 184, height: 76, solid: true },
+  // Leaves a 55 px southern crossover between the central frame and this low cover.
+  { kind: 'long-crate', x: 722, y: 770, width: 184, height: 76, solid: true },
   { kind: 'vent', x: 1265, y: 760, width: 104, height: 92, solid: true },
   { kind: 'supply', x: 90, y: 410, width: 105, height: 105, solid: true },
 ];

@@ -239,16 +239,16 @@ Ziel: Einzelassets kontrolliert erzeugen, prüfen, normalisieren und reproduzier
 
 Ziel: Layout und Kampfentfernungen ohne Abhängigkeit von finaler Grafik validieren.
 
-- [ ] Spawnräume und Spawn-Ausgänge definieren
-- [ ] obere, mittlere und untere Lane bauen
-- [ ] mindestens zwei sichere Querverbindungen bauen
-- [ ] zentrale Pressure Zone platzieren
-- [ ] hohe Sichtblocker und niedrige Deckung unterscheiden
-- [ ] lange ununterbrochene Sichtlinien vermeiden
+- [x] Spawnräume und Spawn-Ausgänge definieren
+- [x] obere, mittlere und untere Lane bauen
+- [x] mindestens zwei sichere Querverbindungen bauen
+- [x] zentrale Pressure Zone platzieren
+- [x] hohe Sichtblocker und niedrige Deckung unterscheiden
+- [x] lange ununterbrochene Sichtlinien vermeiden
 - [ ] Rifle-, SMG- und Shotgun-Distanzen auf der Map prüfen
 - [ ] Pickup-Risiko und -Erreichbarkeit prüfen
-- [ ] Navigationsraster und Zielpunkte erzeugen
-- [ ] Bot-Stuck-Tests durchführen
+- [x] Navigationsraster und Zielpunkte erzeugen
+- [~] Bot-Stuck-Tests durchführen
 - [ ] G3 abnehmen
 
 ## P4 — Core Gameplay vervollständigen
@@ -643,6 +643,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | GitHub Pages per GitHub Actions | Jeder Push auf `master` testet, baut und deployt den Vite-Build als Pages-Artefakt |
 | 2026-09-04 | G2-Style-Lock | vier B0-Master, Runtime-Atlanten und Manifestfreigaben geprüft; mobile Geräte-QA bleibt Bestandteil von P9 |
 | 2026-09-04 | Prompt-Vorlagen und Kontaktbogen werden versioniert erzeugt | Character-, Environment- und Pickup-Vorlagen sichern die B0-Invarianten für die nächsten Batches |
+| 2026-09-04 | Crossline Yard Graybox | Originale 3-Lane-/Loop-Map mit central Objective und zwei Querverbindungen, unabhängig von V7 |
 
 ---
 
@@ -676,6 +677,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | GitHub Pages Deployment | Actions-Run `33856906277` erfolgreich; öffentliche Seite antwortet mit HTTP 200 unter `https://emfau88.github.io/topdownshooter/` |
 | 2026-09-04 | G2-Style-Abnahme | B0-Manifest als `approved` validiert; 32/32 Tests und Produktions-Build bestanden |
 | 2026-09-04 | B0-Kontaktbogen | automatisiert erzeugt und nach einer ASCII-Kodierungskorrektur ohne Textartefakte visuell geprüft |
+| 2026-09-04 | Graybox-Navigation | 6 Spawnpunkte erreichen obere, mittlere und untere Lane; zentrale Passage auf 96 px korrigiert; 34/34 Tests bestanden |
 
 ---
 
