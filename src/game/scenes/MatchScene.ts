@@ -18,6 +18,7 @@ import { DebugOverlay } from '../rendering/DebugOverlay';
 import { MatchEvents } from '../systems/MatchEvents';
 import { moveActor, separateActors } from '../systems/movement';
 import { createTouchState } from '../systems/touchState';
+import { chooseIdleGoal, nearestAiTarget } from '../systems/aiPolicy';
 import { createActor } from '../entities/createActor';
 import type {
   ActorState,
@@ -526,8 +527,7 @@ export class MatchScene extends Phaser.Scene {
 
   private updateAi(actor: ActorState, deltaMs: number): void {
     const enemies = this.actors.filter((candidate) => candidate.team !== actor.team && candidate.alive && this.canSee(actor, candidate));
-    enemies.sort((a, b) => distance(actor, a) - distance(actor, b));
-    const target = enemies[0] ?? null;
+    const target = nearestAiTarget(actor, enemies);
 
     if (target) {
       if (actor.trackedEnemyId !== target.id) {
@@ -581,12 +581,15 @@ export class MatchScene extends Phaser.Scene {
         this.throwSmoke(actor, target);
       }
     } else {
-      const rally = actor.team === 'blue' ? BLUE_RALLY : RED_RALLY;
-      const defaultGoal = rally[actor.tacticalIndex % rally.length] ?? ZONE_CENTER;
-      const goal = actor.lastSeen ?? (this.pressureZoneActive ? {
-        x: ZONE_CENTER.x + (actor.team === 'blue' ? -55 : 55),
-        y: ZONE_CENTER.y + (actor.tacticalIndex - 1) * 42,
-      } : defaultGoal);
+      const goal = chooseIdleGoal({
+        team: actor.team,
+        tacticalIndex: actor.tacticalIndex,
+        pressureActive: this.pressureZoneActive,
+        lastSeen: actor.lastSeen,
+        blueRally: BLUE_RALLY,
+        redRally: RED_RALLY,
+        zoneCenter: ZONE_CENTER,
+      });
       this.moveToward(actor, goal, deltaMs);
     }
 

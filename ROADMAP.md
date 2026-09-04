@@ -8,9 +8,9 @@
 |---|---|
 | Letzte Aktualisierung | 2026-09-04 |
 | Produktziel | Hochwertiger spielbarer Mobile-Web-Slice |
-| Aktuelle Produktionsstufe | P0 — Projektgrundlage, Abschlussarbeiten |
-| Aktueller Batch | B0 — Style-Anker: Kandidaten und Ingame-Review |
-| Nächstes Gate | G1 — Technisches Fundament freigegeben |
+| Aktuelle Produktionsstufe | P1 — Art Direction und Asset-Vertrag |
+| Aktueller Batch | B0 — Style-Anker: Ingame-Review und Freigabe |
+| Nächstes Gate | G2 — Style-Lock |
 | Primärplattform | Android, Chrome/Chromium, Landscape |
 | Mindestgröße | 720 × 360 CSS-Pixel |
 | Sekundärziele | Desktop Chrome/Edge; Safari/iOS funktional |
@@ -149,7 +149,7 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 - [x] TypeScript, Phaser 3 und Vite eingerichtet
 - [x] Produktions-Build erfolgreich
 - [x] Kernregeln für Ammo, Capture und Takeover getestet
-- [~] MatchScene in klar verantwortliche Systeme zerlegt
+- [x] MatchScene in klar verantwortliche Systeme zerlegt
 - [x] deterministischer Zufallsgenerator für Schüsse und KI vorhanden
 - [x] Debug-Modi für Kollision, Navigation und Sichtlinien vorhanden
 
@@ -203,7 +203,7 @@ Ziel: Aus dem funktionalen Mechanics-Spike eine belastbare Produktionsbasis mach
 - [x] verbleibende Balancewerte aus Scene-Code entfernen
 - [x] Debug-Overlay für FPS, Actor-Positionen und Zustände ergänzen
 - [x] Tests für Reload, Reserve-Cap, Capture, Sudden Death, Takeover und Combat-Grundregeln vervollständigen
-- [ ] G1 abnehmen
+- [x] G1 abnehmen
 
 ## P1 — Art Direction und Asset-Vertrag
 
@@ -638,6 +638,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Smoke als Lifecycle-Modell | Smoke-Radius und -Dauer sind zentral definiert und unabhängig testbar |
 | 2026-09-04 | Pickup-Effekte als reine Regel | Medkit und Ammo entscheiden deterministisch über Konsum und Zustandsänderung |
 | 2026-09-04 | Best-of-5-Score als reine Matchregel | Die UI reagiert nur noch auf das getestete Ergebnis eines Rundensieges |
+| 2026-09-04 | KI-Zielpriorisierung als eigene Policy | Sichtbare Gegner, letzte Sichtung, Pressure Zone und Rally-Punkte sind testbar getrennt |
 
 ---
 
@@ -665,6 +666,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | P0 Smoke-Modell | 26/26 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Pickup-Modell | 28/28 automatisierte Tests und Produktions-Build bestanden |
 | 2026-09-04 | P0 Match-Score-Modell | 30/30 automatisierte Tests und Produktions-Build bestanden |
+| 2026-09-04 | G1-Technikabnahme | 32/32 automatisierte Tests, Asset-Manifest-Prüfung und Produktions-Build bestanden |
 
 ---
 
