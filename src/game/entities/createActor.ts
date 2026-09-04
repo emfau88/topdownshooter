@@ -16,6 +16,8 @@ export interface ActorSpawnSpec {
 export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorState {
   const angle = spec.team === 'blue' ? -Math.PI / 2 : Math.PI / 2;
   const usesB0Character = spec.team === 'blue' && spec.weapon === 'rifle' && spec.tacticalIndex === 0;
+  // B0 faces screen-up in its source image; game aim uses 0 radians = screen-right.
+  const aimOffset = usesB0Character ? Math.PI / 2 : 0.06;
   const sprite = scene.add.image(
     spec.spawn.x,
     spec.spawn.y,
@@ -26,7 +28,7 @@ export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorSta
     // Give it a larger canvas footprint so its visible body matches the tightly
     // cropped legacy sprites instead of making the controlled soldier tiny.
     .setDisplaySize(usesB0Character ? 140 : 70, usesB0Character ? 140 : 70)
-    .setRotation(angle + 0.06)
+    .setRotation(angle + aimOffset)
     .setDepth(spec.spawn.y);
 
   return {
@@ -45,6 +47,7 @@ export function createActor(scene: Phaser.Scene, spec: ActorSpawnSpec): ActorSta
     armor: 35,
     angle,
     speed: 175,
+    aimOffset,
     velocity: { x: 0, y: 0 },
     cooldownMs: 0,
     reloadMs: 0,

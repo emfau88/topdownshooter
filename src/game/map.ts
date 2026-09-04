@@ -47,15 +47,8 @@ export const PROPS: readonly PropDefinition[] = [
   { kind: 'sandbags', x: 245, y: 721, width: 150, height: 64, solid: true },
   { kind: 'sandbags', x: 1205, y: 721, width: 150, height: 64, solid: true },
 
-  // Lane anchors: each pair breaks a long angle and makes the flank useful for
-  // SMG/shotgun play without turning the route into a maze.
-  { kind: 'long-crate', x: 525, y: 245, width: 180, height: 72, solid: true },
-  { kind: 'long-crate', x: 895, y: 245, width: 180, height: 72, solid: true },
-  { kind: 'long-crate', x: 525, y: 643, width: 180, height: 72, solid: true },
-  { kind: 'long-crate', x: 895, y: 643, width: 180, height: 72, solid: true },
-
-  // The objective itself stays intentionally clear. The shell and the nearby
-  // lane anchors provide contest cover, but a team cannot capture from a bunker.
+  // The objective stays intentionally clear. Structural walls define the lanes;
+  // loose crates are not used as arbitrary maze pieces.
 ];
 
 export const COLLIDERS: readonly MapRectangle[] = [

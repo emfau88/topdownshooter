@@ -15,6 +15,8 @@ export interface ActorState extends Point {
   armor: number;
   angle: number;
   speed: number;
+  /** Rotation needed to align the source sprite's native weapon direction to world aim. */
+  aimOffset: number;
   velocity: Point;
   cooldownMs: number;
   reloadMs: number;

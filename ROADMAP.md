@@ -168,7 +168,7 @@ Ein nachfolgender großer Produktionsabschnitt beginnt erst, wenn sein Gate erf�
 - [x] neue Map ohne finale Grafik spielbar
 - [x] drei Lanes und mindestens zwei Querverbindungen vorhanden
 - [x] alle drei Waffen besitzen sinnvolle Einsatzbereiche
-- [~] Sichtlinien, Smoke, Pickups und Takeover funktionieren; neuer Takeover-Flow benötigt noch Spieltest
+- [~] Sichtlinien, Smoke, Pickups und Takeover funktionieren; sichtbarer Team-Fog mit 720-px-Reveal implementiert, Spieltest offen
 - [ ] Bots erreichen alle spielrelevanten Bereiche
 
 ## G4 — First Art Complete
@@ -649,6 +649,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Crossline Depot replaces Crossline Yard | Symmetrische Spawnformationen, drei klare Routen, zwei Crossover-Baffles, offene Pressure Zone und risikobasierte Pickups ersetzen die diagonale, zufällige Anordnung |
 | 2026-09-04 | B0 character display compensation | Der großzügig gepaddete Top-down-Atlas wird doppelt so groß gerendert, damit seine sichtbare Figur den älteren, enger beschnittenen Sprites entspricht |
 | 2026-09-04 | Combat-feel first pass | Waffen erhalten getrennte Kick-, Muzzle-Flash-, Tracer- und Synth-Sound-Profile; Takeover wird als 620-ms-Übergabe mit Input-Reset und Depenetration inszeniert |
+| 2026-09-04 | Visibility and map readability pass | Team-Fog visualisiert den 720-px-Sichtbereich; ruhiger Depotboden ersetzt die Asset-Kachel-Collage; B0-Soldat erhält den Quellbild-Aim-Offset für korrektes Maus-Aiming |
 | 2026-09-04 | Waffenrollen als Graybox-Grenzen | Rifle, SMG und Shotgun sind durch Reichweite, Preferred Range und Feuermodus datenbasiert getrennt |
 | 2026-09-04 | Rundenende als einmalige Zustandsübergabe | Nur die aktive Combat-Phase darf Score und Folgephase verändern |
 
@@ -688,6 +689,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | Core-Outcome-Modell | Rundensieg wird nur während Combat akzeptiert; 38/38 Tests und Produktions-Build bestanden |
 | 2026-09-04 | Crossline Depot Graybox | 6 Spawnpunkte erreichen alle drei Lane-Ziele; 38/38 Tests und Produktions-Build nach Map-Neubau bestanden |
 | 2026-09-04 | Combat-feel first pass | Waffenprofile und Takeover-Sequenz bauen; 40/40 Tests und Produktions-Build bestanden |
+| 2026-09-04 | Visibility/readability first pass | Fog-Overlay, Aim-Offset und vereinfachte Arena-Geometrie gebaut; 40/40 Tests und Produktions-Build bestanden |
 
 ---
 

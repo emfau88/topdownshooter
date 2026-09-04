@@ -48,6 +48,7 @@ import { findPath } from '../navigation';
 
 const ZONE_CENTER = { x: 800, y: 480 } as const;
 const ZONE_RADIUS = 92;
+const VISION_RADIUS = 720;
 
 function teamColor(team: Team): number {
   return team === 'blue' ? COLORS.blue : COLORS.red;
@@ -92,6 +93,8 @@ export class MatchScene extends Phaser.Scene {
   private zoneGraphics!: Phaser.GameObjects.Graphics;
   private effectGraphics!: Phaser.GameObjects.Graphics;
   private statusGraphics!: Phaser.GameObjects.Graphics;
+  private fogTexture!: Phaser.GameObjects.RenderTexture;
+  private fogStencil!: Phaser.GameObjects.Graphics;
   private hudGraphics!: Phaser.GameObjects.Graphics;
   private hudText!: Phaser.GameObjects.Text;
   private objectiveText!: Phaser.GameObjects.Text;
@@ -113,6 +116,7 @@ export class MatchScene extends Phaser.Scene {
   private killMarkerMs = 0;
   private cameraShake = 0;
   private pendingTakeover: { deadActor: ActorState; remainingMs: number } | null = null;
+  private fogRefreshMs = 0;
   private readonly showTouchUi = window.matchMedia?.('(pointer: coarse)').matches ?? false;
 
   constructor() {
@@ -126,6 +130,8 @@ export class MatchScene extends Phaser.Scene {
     this.zoneGraphics = this.add.graphics().setDepth(4);
     this.effectGraphics = this.add.graphics().setDepth(3000);
     this.statusGraphics = this.add.graphics().setDepth(3100);
+    this.fogTexture = this.add.renderTexture(0, 0, WORLD_WIDTH, WORLD_HEIGHT).setOrigin(0).setDepth(2900);
+    this.fogStencil = this.add.graphics().setVisible(false);
     this.hudGraphics = this.add.graphics().setScrollFactor(0).setDepth(5000);
     this.debugOverlay = new DebugOverlay(this);
 
@@ -185,6 +191,7 @@ export class MatchScene extends Phaser.Scene {
     }
 
     this.updateVisibility();
+    this.updateFogOfWar(deltaMs);
     this.syncActors();
     this.drawWorldEffects();
     this.drawHud();
@@ -192,18 +199,19 @@ export class MatchScene extends Phaser.Scene {
   }
 
   private createMap(): void {
-    const tileSize = 150;
-    for (let y = 0; y < WORLD_HEIGHT + tileSize; y += tileSize) {
-      for (let x = 0; x < WORLD_WIDTH + tileSize; x += tileSize) {
-        const central = x > 520 && x < 1060 && y > 220 && y < 760;
-        const frame = central ? 'floor-concrete' : ((x / tileSize + y / tileSize) % 5 === 0 ? 'floor-stain' : 'floor-olive');
-        this.add.image(x, y, ASSET_KEYS.environment, frame)
-          .setOrigin(0)
-          .setDisplaySize(tileSize + 1, tileSize + 1)
-          .setAlpha(central ? 0.86 : 0.92)
-          .setDepth(-100);
-      }
-    }
+    // One coherent depot floor replaces the noisy asset-sheet tile collage.
+    const floor = this.add.graphics().setDepth(-100);
+    floor.fillStyle(0x28332d, 1);
+    floor.fillRect(0, 0, WORLD_WIDTH, WORLD_HEIGHT);
+    floor.fillStyle(0x323d35, 1);
+    floor.fillRect(42, 42, 1516, 876);
+    floor.fillStyle(0x404744, 1);
+    floor.fillRect(540, 118, 520, 724);
+    floor.fillStyle(0x363d39, 1);
+    floor.fillRect(42, 386, 1516, 188);
+    floor.lineStyle(3, 0x768078, 0.22);
+    floor.lineBetween(42, 386, 1558, 386);
+    floor.lineBetween(42, 574, 1558, 574);
 
     const boundaryGraphics = this.add.graphics().setDepth(8);
     boundaryGraphics.fillStyle(0x252820, 1);
@@ -237,11 +245,11 @@ export class MatchScene extends Phaser.Scene {
     }
 
     const floorDetails = this.add.graphics().setDepth(-5);
-    floorDetails.lineStyle(2, 0xc89f44, 0.22);
-    floorDetails.strokeRect(578, 283, 444, 394);
-    floorDetails.lineStyle(1, 0xffffff, 0.045);
-    for (let x = 70; x < WORLD_WIDTH; x += 120) floorDetails.lineBetween(x, 45, x, WORLD_HEIGHT - 45);
-    for (let y = 70; y < WORLD_HEIGHT; y += 120) floorDetails.lineBetween(45, y, WORLD_WIDTH - 45, y);
+    floorDetails.lineStyle(3, 0xc89f44, 0.28);
+    for (let x = 88; x < WORLD_WIDTH - 42; x += 170) floorDetails.lineBetween(x, 480, Math.min(x + 76, WORLD_WIDTH - 42), 480);
+    floorDetails.lineStyle(2, 0xbcc4b8, 0.13);
+    floorDetails.lineBetween(800, 62, 800, 322);
+    floorDetails.lineBetween(800, 638, 800, 898);
   }
 
   private configureInput(): void {
@@ -937,12 +945,32 @@ export class MatchScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * Static geometry remains readable, while unexplored space is visibly darkened.
+   * Enemy visibility still uses the stricter wall/smoke line-of-sight rule above.
+   */
+  private updateFogOfWar(deltaMs: number): void {
+    this.fogRefreshMs -= deltaMs;
+    if (this.fogRefreshMs > 0) return;
+    this.fogRefreshMs = 80;
+
+    this.fogTexture.clear();
+    this.fogTexture.fill(0x05080a, 0.7);
+    this.fogStencil.clear();
+    this.fogStencil.fillStyle(0xffffff, 1);
+    for (const actor of this.actors) {
+      if (actor.team === 'blue' && actor.alive) this.fogStencil.fillCircle(actor.x, actor.y, VISION_RADIUS);
+    }
+    this.fogTexture.erase(this.fogStencil);
+    this.fogStencil.clear();
+  }
+
   private syncActors(): void {
     for (const actor of this.actors) {
       actor.sprite.setPosition(actor.x, actor.y);
       if (actor.alive) {
         actor.sprite
-          .setRotation(actor.angle + 0.06)
+          .setRotation(actor.angle + actor.aimOffset)
           .setDepth(actor.y)
           .setTint(actor.hitFlashMs > 0 ? 0xffb8a5 : 0xffffff);
       }
@@ -1119,6 +1147,11 @@ export class MatchScene extends Phaser.Scene {
     }
 
     this.statusGraphics.clear();
+    if (this.controlled?.alive) {
+      // A subtle boundary makes the 720 px fog-reveal range legible at a glance.
+      this.statusGraphics.lineStyle(2, COLORS.blue, 0.24);
+      this.statusGraphics.strokeCircle(this.controlled.x, this.controlled.y, VISION_RADIUS);
+    }
     for (const actor of this.actors) {
       if (!actor.alive || !actor.sprite.visible) continue;
       const color = teamColor(actor.team);
