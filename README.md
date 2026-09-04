@@ -16,6 +16,8 @@ npm run dev
 
 Open the shown URL in a landscape browser. Desktop controls are `WASD`, mouse aim, `Space` to fire, `R` to reload, and `G` to throw smoke. Mobile controls use two sticks plus dedicated Fire, Reload, and Smoke buttons.
 
+On desktop, choose a primary in the Loadout screen and press `DEPLOY`; the mobile stick overlay stays hidden, while keyboard and mouse controls remain active.
+
 To review the current B0 art candidates without entering a match, add `?art-review` to the local URL (for example `http://localhost:5188/?art-review`). This is a development-only review surface; candidates are not yet final runtime assets.
 
 ## Match rules

@@ -10,7 +10,10 @@ const game = new Phaser.Game({
   backgroundColor: '#161914',
   pixelArt: false,
   antialias: true,
+  antialiasGL: false,
+  desynchronized: true,
   roundPixels: true,
+  transparent: false,
   render: {
     powerPreference: 'high-performance',
   },

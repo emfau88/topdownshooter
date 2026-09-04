@@ -109,6 +109,7 @@ export class MatchScene extends Phaser.Scene {
   private hitMarkerMs = 0;
   private killMarkerMs = 0;
   private cameraShake = 0;
+  private readonly showTouchUi = window.matchMedia?.('(pointer: coarse)').matches ?? false;
 
   constructor() {
     super('match');
@@ -1163,7 +1164,8 @@ export class MatchScene extends Phaser.Scene {
       this.playerText.setVisible(false);
     }
 
-    const controlsVisible = this.phase === 'combat' || this.phase === 'countdown';
+    // Keyboard and mouse input stay available everywhere; only the expensive visual touch controls are mobile-only.
+    const controlsVisible = this.showTouchUi && (this.phase === 'combat' || this.phase === 'countdown');
     this.fireButtonText.setVisible(controlsVisible);
     this.smokeButtonText.setVisible(controlsVisible);
     this.reloadButtonText.setVisible(controlsVisible);
