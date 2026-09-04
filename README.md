@@ -2,6 +2,8 @@
 
 A clean-room implementation of a focused 3v3 mobile tactical shooter slice. The supplied V7 build is used only as a reference for interaction, pacing, and art direction; none of its single-file code is used as application architecture.
 
+Play the current deployed build: [BREACHLINE on GitHub Pages](https://emfau88.github.io/topdownshooter/).
+
 The maintained implementation order, production batches, gates, and current status live in [ROADMAP.md](./ROADMAP.md).
 Working conventions and the art contract are in [CONTRIBUTING.md](./CONTRIBUTING.md) and [ART_STYLEGUIDE.md](./ART_STYLEGUIDE.md).
 
