@@ -671,6 +671,7 @@ Der Slice gilt erst als fertig, wenn alle Punkte erfüllt sind:
 | 2026-09-04 | G1-Technikabnahme | 32/32 automatisierte Tests, Asset-Manifest-Prüfung und Produktions-Build bestanden |
 | 2026-09-04 | B0-Normalisierung und Review-Atlas | vier Master-Canvas und drei abgeleitete Review-PNGs plus Frame-JSON erzeugt; Quellen mit Randkontakt werden gewarnt und erhalten Runtime-Padding |
 | 2026-09-04 | B0-Runtime-Integration | Character-Anker, Wand, Kiste und Medkit werden im Match geladen; automatisierte Browserprüfung lokal nicht verfügbar, deshalb visuelle Abnahme noch offen |
+| 2026-09-04 | GitHub Pages Deployment | Actions-Run `33856906277` erfolgreich; öffentliche Seite antwortet mit HTTP 200 unter `https://emfau88.github.io/topdownshooter/` |
 
 ---
 
