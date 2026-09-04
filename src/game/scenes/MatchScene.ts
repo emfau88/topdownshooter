@@ -30,13 +30,14 @@ import type {
   TracerState,
 } from '../entities/types';
 import { COLLIDERS, PICKUP_POSITIONS, PROPS, STATIC_WALLS, isBlocked } from '../map';
-import { grantAmmoMagazine, reloadAmmo } from '../model/ammo';
+import { reloadAmmo } from '../model/ammo';
 import { applyDamage, spendShot } from '../model/combat';
 import { updateCapture } from '../model/capture';
 import { SeededRandom } from '../model/random';
 import { createRoundClock, tickRoundClock } from '../model/round';
 import type { RoundClockState } from '../model/round';
 import { createSmoke, tickSmokes } from '../model/smoke';
+import { applyPickup } from '../model/pickup';
 import { chooseTakeoverCandidate } from '../model/takeover';
 import { hasLineOfSight } from '../model/visibility';
 import type { CaptureState, MatchPhase, Point, Team, WeaponKey } from '../model/types';
@@ -801,16 +802,12 @@ export class MatchScene extends Phaser.Scene {
       pickup.sprite.setDisplaySize(58 * pulse, 58 * pulse);
       for (const actor of this.actors) {
         if (!actor.alive || distance(actor, pickup) >= 38) continue;
-        if (pickup.kind === 'med' && actor.hp < 90) {
-          actor.hp = Math.min(100, actor.hp + 35);
-          this.collectPickup(pickup, actor, 'MEDKIT  +35');
-          break;
-        }
-        if (pickup.kind === 'ammo' && actor.ammo.reserve < WEAPONS[actor.weapon].reserveCap) {
-          actor.ammo = grantAmmoMagazine(actor.weapon, actor.ammo);
-          this.collectPickup(pickup, actor, `AMMO  +${WEAPONS[actor.weapon].magazineSize}`);
-          break;
-        }
+        const effect = applyPickup(pickup.kind, actor);
+        if (!effect) continue;
+        if (effect.kind === 'med') actor.hp = effect.hp;
+        else actor.ammo = effect.ammo;
+        this.collectPickup(pickup, actor, effect.message);
+        break;
       }
     }
   }
